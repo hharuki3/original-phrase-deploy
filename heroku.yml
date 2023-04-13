@@ -1,0 +1,11 @@
+build:
+  docker:
+    web: ./infra/php/Dockerfile
+
+run:
+  web: php artisan serve --host=0.0.0.0 --port=$PORT
+
+release:
+  image: heroku/php
+  command:
+    - php artisan config:cache
