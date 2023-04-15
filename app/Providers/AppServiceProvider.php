@@ -7,6 +7,7 @@ use App\Models\Memo;
 use App\Models\Category;
 use App\Models\Group;
 use App\Models\Phrase;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+    
+
 
     /**
      * Bootstrap any application services.
@@ -27,13 +30,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //https通信を強制
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+
         //
         view()->composer('*', function($view){
 
             $query_category = \Request::query('category');
             // dd($query_category);
             if(!empty($query_category)){
-
                 $phrases = Phrase::select('phrases.*')
                     ->leftJoin('phrase_categories', 'phrase_categories.phrase_id', '=', 'phrases.id')
                     ->where('phrase_categories.category_id', '=', $query_category)
@@ -41,8 +48,6 @@ class AppServiceProvider extends ServiceProvider
                     ->where('user_id', '=', \Auth::id())
                     ->orderBy('updated_at', 'DESC')
                     ->get();
-
-                
             }else{
                 $phrases = Phrase::select('phrases.*')
                     ->whereNull('deleted_at')
@@ -50,13 +55,9 @@ class AppServiceProvider extends ServiceProvider
                     ->where('user_id', '=', \Auth::id())
                     ->orderBy('updated_at', 'DESC')
                     ->get();
-
             }
             $randoms = range(0,count($phrases)-1);
             shuffle($randoms);
-            // dd($randoms);
-
-
             
             $categories = Category::where('user_id', '=', \Auth::id())
                 ->whereNull('deleted_at')
@@ -76,9 +77,6 @@ class AppServiceProvider extends ServiceProvider
 
             $randoms_checked =range(0,count($phrase_checked)-1);
             shuffle($randoms_checked);
-
-            
-            
 
             $view->with('phrases', $phrases)
                 ->with('categories', $categories)
