@@ -112,10 +112,12 @@ class HomeController extends Controller
             }
                 // dd($category_exists);
             //emptyは0も空扱いになるため、厳密に書くのであれば「|| $posts['new_category']===0」も追加
-            if(!isset($category_exists) && isset($posts['new_category']) ){
+            if(isset($category_exists) && isset($posts['new_category']) ){
                 $category_id = Category::insertGetId(['name' => $posts['new_category'], 'user_id' => \Auth::id()]);
                 PhraseCategory::insert(['phrase_id' => $posts['phrase_id'], 'category_id' => $category_id]);
             }
+
+
 
         });
         return redirect(route('home'));

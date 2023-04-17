@@ -25,9 +25,9 @@ services:
       - 8081:80
     environment:
       PMA_ARBITRARY: 1
-      MYSQL_HOST: us-cdbr-east-06.cleardb.net
-      MYSQL_USER: b8cb31ca0c53a5
-      MYSQL_PASSWORD: 83233811
+      MYSQL_HOST: db
+      MYSQL_USER: phper
+      MYSQL_PASSWORD: secret
 
 
 
