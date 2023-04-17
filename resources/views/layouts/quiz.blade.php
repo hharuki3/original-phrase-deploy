@@ -116,10 +116,8 @@
                 
                 <div class="col-md-7">
                     <div class="card">
-                        <div class="card-body">
                             @yield('content') 
                             @yield('javascript')
-                        </div>
                     </div>
                 </div>
             </div>

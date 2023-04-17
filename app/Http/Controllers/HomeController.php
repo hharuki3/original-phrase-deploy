@@ -192,12 +192,13 @@ class HomeController extends Controller
         ->whereNotNull('checklist')
         ->where('user_id', '=', \Auth::id())
         ->orderBy('updated_at', 'DESC')
-        ->get();
-        if(!isset($phrase_checked)){
+        ->exists();
+        if($phrase_checked){
             return view('quiz_checked');
         }else{
             return redirect('quiz_all');
         }
+
     }
 
     public function result(Request $request)
