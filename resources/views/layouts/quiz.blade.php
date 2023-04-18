@@ -80,8 +80,8 @@
         <main class="py-4">
             <div class="row">
                 <div class="col-md-3 mx-5">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card h5">
+                        <div class="card-header my-1">
                             復習テスト
                         </div>
                         <div class="card-body">

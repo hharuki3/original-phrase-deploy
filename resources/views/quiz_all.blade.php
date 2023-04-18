@@ -5,50 +5,77 @@
 
 <!-- ランダムだと同じ問題が複数回出題されてしまう。 
 もし全ての問題が出力されたら、終了の表示をさせる-->
+
 <div class="card-header">
-    すべて出題
+    <div class="row h5 my-1">
+        <div class="col-md-4 text-start">
+            <a href="/home" style="text-decoration:none;">一覧へ</a>
+            <!-- <h5 style="display:inline;" id="list"><a href="/home">一覧へ</a></h5> -->
+        </div>
+        <div class="col-md-4 text-center">
+            すべて出題
+        </div>
+        <div class="col-md-3 text-end px-0">
+            <form method="post" action="{{route('update_checklist')}}"  id="checklist">
+                @csrf
+                <div type="hidden" name="agree" id="agree" value="checked" onchange="checkForm(this.form)"></div>
+                <input type="hidden" name="japanese" id="japanese_check">
+                <input type="hidden" name="phrase" id="phrase_check">
+                <input type="hidden" name="memo" id="memo_check">
+                <input type="hidden" name="phrase_id" id="phrase_id_check">
+                <input type="hidden" name="checklist" id="checklist_check">
+            </form>
+        </div>
+        <div class="col-md-1 text-end">
+            <a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('answer')" id = "answer">答え</a>
+        </div>
+    </div>
 </div>
-<div class="card-body">
-
-    <h5 style="display:inline;" id="list"><a href="/home">一覧へ</a></h5>
-    <p style="display:inline;">全て出題</p>
-    <div style="display:inline;" id="again"></div>
-    <h5 style="display:inline;"><a href="javascript:;" onclick="Display_JS('answer')" id = "answer">答え</a></h5>
 
 
+<div class="card-body text-center h5">
+    <div id="again"></div>
     <div>
-        <div id="japanese">
+        <div class="my-5" id="japanese">
             <p scope="row" style="display:inline-flex" class="japanese">{{$phrases[$randoms[0]]['japanese']}}</p>
         </div>
-        <div id="phrase">
+        <div class="my-5" id="phrase">
             <p scope="row" style="display:inline-flex" class="english">{{$phrases[$randoms[0]]['phrase']}}</p>
         </div>
-        <div id="memo">
+        <div class="my-5" id="memo">
             <p scope="row" style="display:inline-flex" class="memo">{{$phrases[$randoms[0]]['memo']}}</p>
         </div>
     </div>
 
 
-    <h5 style="display:inline;"><a href="javascript:;" onclick="Display_JS('Known')" id="Known">わかる</a></h5>
-    <h5 style="display:inline;"><a href="javascript:;" onclick="Display_JS('UnKnown')" id="UnKnown">わからない</a></h5> 
+    <div class="row px-0 my-0">
+        <div class="col-md-10 text-end" style="margin-right:10em">
+            <a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next">
+                ▶️▶️
+            </a>
+        </div>
+    </div> 
 
+    <div class="row">
+        <div class="col-md-6 text-center px-0">
+            <a href="javascript:;" style="text-decoration:none;"onclick="Display_JS('Known')" id="Known">
+                <div style="margin-left:10em;padding:5em; border:1px solid #ccc;">
+                    わかる
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 text-center px-0">
+            <a href="javascript:;"  style="text-decoration:none;" onclick="Display_JS('UnKnown')" id="UnKnown">
+            <div style="margin-right:10em;padding:5em; border:1px solid #ccc;">
+                わからない
+            </div>
+            </a>
+        </div> 
+    </div>
+</div>
+@endsection
 
-
-    <form method="post" action="{{route('update_checklist')}}"  id="checklist">
-        @csrf
-        <div type="hidden" name="agree" id="agree" value="checked" onchange="checkForm(this.form)"></div>
-        <input type="hidden" name="japanese" id="japanese_check">
-        <input type="hidden" name="phrase" id="phrase_check">
-        <input type="hidden" name="memo" id="memo_check">
-        <input type="hidden" name="phrase_id" id="phrase_id_check">
-        <input type="hidden" name="checklist" id="checklist_check">
-    </form>
-
-    <h5><a href="javascript:;" onclick="Display_JS('next')" id="next">次へ</a></h5> 
-
-    @endsection
-
-    @section('javascript')
+@section('javascript')
 
     <script src="{{ asset('/js/questions.js') }}"></script>
 
@@ -74,9 +101,11 @@
                 document.getElementById("Known").innerHTML = '';
                 document.getElementById("UnKnown").innerHTML = '';
                 document.getElementById("next").innerHTML = '';
-                const again = document.getElementById('again')
+                const again = document.getElementById('again');
                 const button = document.createElement('button');
                 button.textContent = 'もう一度';
+                button.className = "btn btn-primary my-5"
+                button.style.fontSize = "1rem"
                 button.addEventListener('click', function() {
                 window.location.href = 'quiz_all';
                 });
@@ -131,10 +160,6 @@
 
         }
     </script>
-
-
-</div>
-
 @endsection
 
 <!-- チェックボックスを押すと、phraseのテーブルにあるis_existカラムにチェックがつく。
