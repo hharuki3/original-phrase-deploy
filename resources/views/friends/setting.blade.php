@@ -1,8 +1,3 @@
-@extends('layouts.register')
-
-
-@section('content')
-
 
 <header>
     <div class="bg-paper">
@@ -14,9 +9,9 @@
                             よんで
                         </a>
                     </li>
-                    <!-- <li class="breadcrumb-item active" aria-current="page">
+                    <li class="breadcrumb-item active" aria-current="page">
                         {{ $family->nickname }}ファミリーの家族設定
-                    </li> -->
+                    </li>
                 </ol>
             </nav>
         </div>
@@ -39,10 +34,14 @@
                 </a>
             </div>
         </div>
-
+        <img src="{{ asset('image/setting_family.png') }}" class="img-fluid mx-auto d-block" alt="" width="80%">
+        @include('families.setting_tabs', [
+        'hasUser' => false,
+        'hasFamily' => true,
+        ])
         <div class="card mt-2 p-4 shadow-sm">
             <div class="card-body py-2">
-                <p class="card-title text-secondary small mb-1">フレンドID</p>
+                <p class="card-title text-secondary small mb-1">ファミリーID</p>
                 <p class="card-text">{{ $family->name }}</p>
             </div>
             <div class="card-body py-2">
@@ -175,7 +174,3 @@
         </div>
     </div>
 </div>
-
-@include('footer')
-
-@endsection
