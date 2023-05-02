@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
+use App\Models\User;
 use App\Models\Category;
 use App\Models\Group;
 use App\Models\Phrase;
 use App\Models\PhraseCategory;
+use App\Mail\Invitation;
+
+//Inviteを追加
+
 use App\Models\UserGroup;
 use DB;
 
@@ -185,6 +191,7 @@ class HomeController extends Controller
             // dd($edit_phrase);
         return view('quiz_all');
     }
+
     public function quiz_checked()
     {
         $phrase_checked = Phrase::select('phrases.*')
@@ -222,6 +229,33 @@ class HomeController extends Controller
     public function invite()
     {
         return view('invite');
+    }
+
+    public function invitation_confirm(Request $request)
+    {
+        $posts = $request->all();
+        // $recipientName メール受信者の名前 / $recipientEmail メール受信者のメールアドレス / fromName メール送信者の名前
+        $recipientName = User::where('email', $posts['email'])->first()->name;
+        $recipientEmail = User::where('email', $posts['email'])->first()->email;
+        $fromName = auth()->user()->name;
+
+
+        $recipientEmail_exist = User::where('email', '=', $posts['email'])
+        ->exists();
+        $token = bin2hex(random_bytes(32)); // ランダムなトークンの生成
+        $url = 'http://localhost:8888/group/join?token=' . $token; // 招待URLの作成
+        Mail::to($recipientEmail)->send(new Invitation($recipientName, $url));
+
+        // コマンドプロンプトでmailhogを実行しないとエラーになる。
+        //invitation.php経由のinvitation_confirm.phpへのアクセスとreturn view経由でのアクセスでどちらも変数を指定する必要がある。
+        // return view('invitation_confirm', compact('recipientName', 'url', 'fromName'));
+        return redirect('/group')->with('success', 'メールを送信しました。');
+
+
+
+        
+
+   
     }
 
 

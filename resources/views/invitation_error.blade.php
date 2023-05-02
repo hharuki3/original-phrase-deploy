@@ -3,7 +3,7 @@
 
 
 @section('content')
-
+<h1>入力したメールアドレスは登録されていません。</h1>
 <div class="bg-paper py-4">
     <div class="container" style="max-width: 540px">
         <h3 class="text-center">
@@ -29,7 +29,7 @@
                 </div>
                 @endif
 
-                <form method="POST" action="{{ route('invitation_confirm') }}">
+                <form method="POST" action="{{ route('invitation') }}">
                     @csrf
                     <div class="form-group">
                         <label for="email">メールアドレス</label>

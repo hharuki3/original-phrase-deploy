@@ -21,13 +21,11 @@ class CreatePhrasesTable extends Migration
             $table->text('checklist')->nullable();
             // $table->string('user_name');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('group_id');
             //deleted_atを自動生成
             $table->softDeletes();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            // $table->foreign('user_id')->references('id')->on('users');
-            // $table->foreign('group_id')->references('id')->on('groups');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -36,6 +36,9 @@ Route::get('/category', [HomeController::class, 'category'])->name('category');
 Route::get('/group', [HomeController::class, 'group'])->name('group');
 //「招待メール送信フォーム画面表示」処理
 Route::get('/invite', [HomeController::class, 'invite'])->name('invite');
+//「メール確認画面表示」処理
+Route::post('/invitation_confirm',[HomeController::class, 'invitation_confirm'])->name('invitation_confirm');
+
 //「家族招待メール送信」処理
 Route::get('/invite_email', [HomeController::class, 'invite_email'])->name('invite_email');
 //「招待用の登録フォーム画面表示」処理
