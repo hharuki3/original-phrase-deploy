@@ -9,7 +9,7 @@
 ## URL
 
 ポートフォリオURL</br>
-https://original-phrase-heroku4.herokuapp.com/
+https://original-phrase-heroku4.herokuapp.com/</br>
 既存のユーザーを作成しているので、よければご利用ください。</br>
 ユーザー名：user</br>
 パスワード：user1234</br>
