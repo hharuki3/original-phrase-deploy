@@ -251,14 +251,24 @@ class HomeController extends Controller
         // return view('invitation_confirm', compact('recipientName', 'url', 'fromName'));
         return redirect('/group')->with('success', 'メールを送信しました。');
 
-
-
-        
-
-   
     }
 
 
+
+    public function InvitedForm(string $token)
+    {
+        $invite = Invite::where('token', $token)->first();
+
+        if (!isset($invite)) {
+            abort(401);
+        }
+
+        return view('invite_register', [
+            'token' => $invite->token,
+            'family_id' => $invite->family_id,
+            'email' => $invite->email,
+        ]);
+    }
 
 
 
