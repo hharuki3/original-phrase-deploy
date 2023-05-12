@@ -7,16 +7,16 @@
 <div class="bg-paper py-4">
     <div class="container" style="max-width: 540px">
         <h3 class="text-center">
-            家族招待メール送信
+            招待メール送信
         </h3>
         <p style="font-size: 14px;">
-            本棚の共有するために招待したい、家族のメールアドレスを入力してください。<br>
+            フレーズの共有するために招待したい、ユーザーのメールアドレスを入力してください。<br>
             入力したメールアドレス宛てに、招待用のユーザー登録ページの案内をお送りします。
         </p>
 
         @if (Auth::id() === config('const.GUEST_USER_ID'))
         <p class="text-danger">
-            ※ゲストユーザーは、家族招待メールを送信できません。
+            ※ゲストユーザーは、招待メールを送信できません。
         </p>
         @endif
 
@@ -35,7 +35,7 @@
                         <label for="email">メールアドレス</label>
                         <input class="form-control" type="email" id="email" name="email" required
                             placeholder="メールアドレスを入力" value="{{ old('email') }}">
-                        <p class="text-muted small ml-1 mb-0">※招待したい家族のメールアドレスを入力してください。</p>
+                        <p class="text-muted small ml-1 mb-0">※招待したいユーザーのメールアドレスを入力してください。</p>
                         <p class="text-muted small ml-1">※メール送信後、24時間以内に登録してください。</p>
                     </div>
                     <div class="d-grid gap-2">

@@ -103,10 +103,10 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-9 px-5">
+                            <div class="col-md-10 px-5">
                                 <a href="{{route('invite')}}" class="btn btn-light my-2">新しいグループを追加</a></br>
                                 <!-- if(!$group[name]) -->
-                                <h4>参加しているグループ</h4>
+                                <h4 class="py-3">参加しているグループ</h4>
                                 <!-- elseif
                                 foreach($groups as $group)
                                 <p>$group['name']</p>
@@ -114,7 +114,7 @@
                                 <p>参加しているグループはありません</p>
                                 <a class="btn btn-block bg-white btn-outline-teal1 text-decoration-none text-teal1 mb-4"
                                     href="{{ route('home') }}">
-                                    家族設定を編集
+                                    設定を編集
                                 </a>
                                 
                             </div>
