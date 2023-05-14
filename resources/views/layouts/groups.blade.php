@@ -122,10 +122,10 @@
                                     </div>
                                     @endforeach
                                 @endif
-                                <a class="btn btn-block bg-white btn-outline-teal1 text-decoration-none text-teal1 mb-4"
+                                <!-- <a class="btn btn-block bg-white btn-outline-teal1 text-decoration-none text-teal1 mb-4"
                                     href="{{ route('home') }}">
                                     設定を編集
-                                </a>
+                                </a> -->
                                 
                             </div>
                         </div>

@@ -94,7 +94,6 @@ class AppServiceProvider extends ServiceProvider
                 ->get();
             
             
-
             $query_group = \Request::query('group');
 
             // 選択したグループに所属しているユーザーを全て取得
@@ -104,6 +103,7 @@ class AppServiceProvider extends ServiceProvider
                 $users = User::select('users.*')
                     ->leftJoin('user_groups', 'user_groups.user_id', '=', 'users.id')
                     ->where('user_groups.group_id', '=', $query_group)
+                    ->where('id', '!=', \Auth::id())
                     ->orderBy('updated_at', 'ASC')
                     ->get();
                 
@@ -115,9 +115,43 @@ class AppServiceProvider extends ServiceProvider
                     ->orderBy('updated_at', 'DESC')
                     ->get();
             }
-            
-            
+            $login_users = User::select('users.*')
+                ->where('id', '=', \Auth::id())
+                ->get();
 
+
+
+
+                
+                
+            $query_user = \Request::query('user');
+
+
+            $group_phrase_exists = Phrase::where('user_id', '=', $query_user)
+            ->whereNull('deleted_at')
+            ->exists();
+
+            // 選択したグループに所属している特定のユーザーのフレーズを取得
+            //ユーザーが投稿していない場合の処理が必要
+            if(!empty($query_user)){
+                if($group_phrase_exists){
+                    $group_user_phrases = Phrase::select('phrases.*')
+                        ->where('user_id', '=', $query_user)
+                        ->whereNull('deleted_at')
+                        ->orderBy('updated_at', 'ASC')
+                        ->get();
+                }else{
+                    // 「投稿しているフレーズなし」の処理
+                    $group_user_phrases = [];
+                }
+                
+            }else{
+                // 所属グループページにいるが、参加ユーザーを選択していない場合の処理
+                $group_user_phrases = [];
+            }
+
+
+            
             $view->with('phrases', $phrases)
                 ->with('categories', $categories)
                 ->with('phrase_exists', $phrase_exists)
@@ -126,7 +160,10 @@ class AppServiceProvider extends ServiceProvider
                 ->with('randoms_checked', $randoms_checked)
                 ->with('group_exists', $group_exists)
                 ->with('groups', $groups)
-                ->with('users', $users);
+                ->with('query_group', $query_group)
+                ->with('users', $users)
+                ->with('login_users', $login_users)
+                ->with('group_user_phrases', $group_user_phrases);
 
         });
     }
