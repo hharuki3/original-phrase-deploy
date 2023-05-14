@@ -34,6 +34,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <p class="text-start">山田太郎（ユーザー名）</p>
+                    <!-- AppServiceProvider.phpで選択したgroupに所属しているユーザーを取得 -->
+                    <!-- $usersにログインユーザーが含まれている場合に表示 （ここは後回し）-->
+                    @foreach($users as $user)
+                    <div>
+                        {{$user['name']}}
+                        <a href="other_phrase">
+                            投稿を閲覧する
+                        </a>
+                        <!-- user['id']のphraseを閲覧できるaタグを作成 -->
+                    </div>
+                    @endforeach
                 </div>
                 <div class="col-md-6">
                     <a href="/" class="text-end">グループを退会</a>
@@ -52,7 +63,7 @@
                         <p class="card-text">メンバー1</p>
                     </div>
                     <div class="col-md-6 text-end">
-                        <a href="">詳細を見る</a>
+                        <a href="">投稿を見る</a>
                     </div>
                 </div>
             </div>

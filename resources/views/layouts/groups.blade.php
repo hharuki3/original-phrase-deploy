@@ -111,7 +111,17 @@
                                 foreach($groups as $group)
                                 <p>$group['name']</p>
                                 -->
+                                @if (!$group_exists)
                                 <p>参加しているグループはありません</p>
+                                @else
+                                    @foreach($groups as $group)
+                                    <div>
+                                        <a href="/group/?group={{$group['id']}}" class="btn btn-light my-2">
+                                            <span>{{$group['name']}}</span>
+                                        </a>
+                                    </div>
+                                    @endforeach
+                                @endif
                                 <a class="btn btn-block bg-white btn-outline-teal1 text-decoration-none text-teal1 mb-4"
                                     href="{{ route('home') }}">
                                     設定を編集

@@ -34,6 +34,9 @@ Route::get('/quiz_result', [HomeController::class, 'quiz_result'])->name('quiz_r
 Route::post('/result', [HomeController::class, 'result'])->name('result');
 Route::get('/category', [HomeController::class, 'category'])->name('category');
 Route::get('/group', [HomeController::class, 'group'])->name('group');
+
+// グループユーザーの投稿を閲覧
+Route::get('/friends_phrases/{id}', [HomeController::class, 'friends_phrases'])->name('friends_phrases');
 //「招待メール送信フォーム画面表示」処理
 Route::get('/invite', [HomeController::class, 'invite'])->name('invite');
 //「メール確認画面表示」処理
