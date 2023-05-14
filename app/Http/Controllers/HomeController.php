@@ -281,7 +281,8 @@ class HomeController extends Controller
         $recipientEmail_exist = User::where('email', '=', $posts['email'])
         ->exists();
         $token = bin2hex(random_bytes(32)); // ランダムなトークンの生成
-        $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
+        // $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
+        $url = 'https://original-phrase-heroku4.herokuapp.com/login?token=' . $token; // 招待URLの作成
 
         // inviteテーブルに追加
         Invite::insert(['group_id' => $group_id, 'token' => $token]);
