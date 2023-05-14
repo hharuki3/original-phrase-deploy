@@ -38,9 +38,19 @@
                     <h5>友達を招待しよう</h5>
                 </div>
                 <div class="col-sm-4 my-2">
-                    <a class="btn btn-block bg-paper btn-outline-teal1 text-teal1" href="{{ route('invite') }}">
+                    <!-- <a class="btn btn-block bg-paper btn-outline-teal1 text-teal1" href="">
                         <i class="fas fa-plus mr-1"></i><b>招待する</b>
-                    </a>
+                    </a> -->
+                    <form action="{{route('invite')}}" method="post">
+                        @csrf
+                        @if(!empty($selected_groups))
+                            @foreach($selected_groups as $selected_group)
+                                <input type="hidden" name="group_id" value="{{$selected_group['id']}}">
+                                <input class="fas fa-plus mr-1" type="submit" value="{{$selected_group['name']}}へ招待する">
+                            @endforeach
+                        @endif
+                    </form>
+                    
                 </div>
             </div>
 
@@ -71,8 +81,7 @@
             <div class="card mt-2 p-4 shadow-sm">
                 <div class="card-body py-2">
                     <p class="card-title text-secondary small mb-1">メンバー一覧</p>
-                    <!-- if(!$groups)  まだ誰も参加していません-->
-                    <!-- foreach($groups as $group)-->
+
                     <div class="row">
                         @foreach($users as $user)
 

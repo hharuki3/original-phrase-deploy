@@ -46,7 +46,7 @@ Route::post('/join', [HomeController::class, 'join'])->name('join');
 // グループユーザーの投稿を閲覧
 Route::get('/friends_phrases/{id}', [HomeController::class, 'friends_phrases'])->name('friends_phrases');
 //「招待メール送信フォーム画面表示」処理
-Route::get('/invite', [HomeController::class, 'invite'])->name('invite');
+Route::post('/invite', [HomeController::class, 'invite'])->name('invite');
 //「メール確認画面表示」処理
 Route::post('/invitation_confirm',[HomeController::class, 'invitation_confirm'])->name('invitation_confirm');
 

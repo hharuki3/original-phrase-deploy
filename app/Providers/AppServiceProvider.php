@@ -95,6 +95,7 @@ class AppServiceProvider extends ServiceProvider
             
             
             $query_group = \Request::query('group');
+            //dd($query_group);
 
             // 選択したグループに所属しているユーザーを全て取得
             if(!empty($query_group)){
@@ -107,6 +108,10 @@ class AppServiceProvider extends ServiceProvider
                     ->orderBy('updated_at', 'ASC')
                     ->get();
                 
+                $selected_groups = Group::select('groups.*')
+                    ->where('groups.id', '=', $query_group)
+                    ->get();
+                
 
             }else{
                 $users = User::select('users.*')
@@ -114,6 +119,8 @@ class AppServiceProvider extends ServiceProvider
                     ->where('id', '=', \Auth::id())
                     ->orderBy('updated_at', 'DESC')
                     ->get();
+                
+                $selected_groups = [];
             }
             $login_users = User::select('users.*')
                 ->where('id', '=', \Auth::id())
@@ -166,7 +173,8 @@ class AppServiceProvider extends ServiceProvider
                 ->with('login_users', $login_users)
                 ->with('query_user', $query_user)
                 ->with('group_user_phrases', $group_user_phrases)
-                ->with('query_invite', $query_invite);
+                ->with('query_invite', $query_invite)
+                ->with('selected_groups', $selected_groups);
 
         });
     }

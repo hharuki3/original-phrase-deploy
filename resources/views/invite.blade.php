@@ -29,15 +29,18 @@
                 </div>
                 @endif
 
+                
                 <form method="POST" action="{{ route('invitation_confirm') }}">
                     @csrf
                     <div class="form-group">
+                        <!-- グループidも送る -->
                         <label for="email">メールアドレス</label>
                         <input class="form-control" type="email" id="email" name="email" required
                             placeholder="メールアドレスを入力" value="{{ old('email') }}">
                         <p class="text-muted small ml-1 mb-0">※招待したいユーザーのメールアドレスを入力してください。</p>
                         <p class="text-muted small ml-1">※メール送信後、24時間以内に登録してください。</p>
                     </div>
+                    <input type="hidden" name="group_id" value="{{$group_id}}">
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary mt-4">
                             <b>送信する</b>

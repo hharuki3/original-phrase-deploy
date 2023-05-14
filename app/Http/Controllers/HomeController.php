@@ -12,6 +12,7 @@ use App\Models\Group;
 use App\Models\UserGroup;
 use App\Models\Phrase;
 use App\Models\PhraseCategory;
+use App\Models\Invite;
 use App\Mail\Invitation;
 
 //Inviteを追加
@@ -235,9 +236,11 @@ class HomeController extends Controller
 
 
 
-    public function invite()
+    public function invite(Request $request)
     {
-        return view('invite');
+        $posts = $request->all();
+        $group_id = $posts['group_id'];
+        return view('invite', compact('group_id'));
     }
 
     public function invitation_confirm(Request $request)
@@ -247,12 +250,15 @@ class HomeController extends Controller
         $recipientName = User::where('email', $posts['email'])->first()->name;
         $recipientEmail = User::where('email', $posts['email'])->first()->email;
         $fromName = auth()->user()->name;
-
+        $group_id = $posts['group_id'];
 
         $recipientEmail_exist = User::where('email', '=', $posts['email'])
         ->exists();
         $token = bin2hex(random_bytes(32)); // ランダムなトークンの生成
         $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
+
+        // inviteテーブルに追加
+        Invite::insert(['group_id' => $group_id, 'token' => $token]);
         Mail::to($recipientEmail)->send(new Invitation($recipientName, $url));
 
         // コマンドプロンプトでmailhogを実行しないとエラーになる。
