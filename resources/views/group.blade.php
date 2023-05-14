@@ -32,15 +32,10 @@
             @endforeach
 
         @else
-            <h4>例</h4>
-
             <p>あなたの登録したフレーズを簡単に共有できます</p>
             <div class="row">
                 <div class="col-sm-8">
                     <h5>友達を招待しよう</h5>
-                    <p class="pt-2 mb-0">
-                        あなたの投稿したフレーズを簡単に共有できます
-                    </p>
                 </div>
                 <div class="col-sm-4 my-2">
                     <a class="btn btn-block bg-paper btn-outline-teal1 text-teal1" href="{{ route('invite') }}">

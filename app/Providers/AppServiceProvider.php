@@ -150,6 +150,7 @@ class AppServiceProvider extends ServiceProvider
                 $group_user_phrases = [];
             }
 
+            $query_invite = \Request::query('token');
 
             
             $view->with('phrases', $phrases)
@@ -164,7 +165,8 @@ class AppServiceProvider extends ServiceProvider
                 ->with('users', $users)
                 ->with('login_users', $login_users)
                 ->with('query_user', $query_user)
-                ->with('group_user_phrases', $group_user_phrases);
+                ->with('group_user_phrases', $group_user_phrases)
+                ->with('query_invite', $query_invite);
 
         });
     }

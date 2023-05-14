@@ -252,13 +252,14 @@ class HomeController extends Controller
         $recipientEmail_exist = User::where('email', '=', $posts['email'])
         ->exists();
         $token = bin2hex(random_bytes(32)); // ランダムなトークンの生成
-        $url = 'http://localhost:8888/group/join?token=' . $token; // 招待URLの作成
+        $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
         Mail::to($recipientEmail)->send(new Invitation($recipientName, $url));
 
         // コマンドプロンプトでmailhogを実行しないとエラーになる。
         //invitation.php経由のinvitation_confirm.phpへのアクセスとreturn view経由でのアクセスでどちらも変数を指定する必要がある。
         // return view('invitation_confirm', compact('recipientName', 'url', 'fromName'));
         return redirect('/group')->with('success', 'メールを送信しました。');
+        
 
     }
 
@@ -277,6 +278,12 @@ class HomeController extends Controller
             'family_id' => $invite->family_id,
             'email' => $invite->email,
         ]);
+    }
+
+    public function join(Request $request){
+        $posts = $request->all();
+        dd($posts);
+        
     }
 
 

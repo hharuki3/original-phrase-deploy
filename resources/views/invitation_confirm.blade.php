@@ -13,4 +13,4 @@
     <p>Best regards,</p>
     <p>{{ $fromName }}</p>
 </body>
-</html>
+</html> 

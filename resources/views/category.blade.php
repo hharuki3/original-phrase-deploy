@@ -17,9 +17,15 @@
             </a>
         </div>
         <div>
-            <a href="{{route('quiz_all')}}" class="btn btn-light my-2">
-                <img width="30" src="{{asset('img/quiz.png')}}" alt="">
-            </a>
+            @if($phrase_exists)
+                <a href="{{route('quiz_all')}}" class="btn btn-light my-2">
+                    <img width="30" src="{{asset('img/quiz.png')}}" alt="">
+                </a>
+            @else
+                <div class="btn btn-light my-2">
+                    <img width="30" src="{{asset('img/quiz.png')}}" alt="">
+                </div>
+            @endif
         </div>
         <div>
             <a href="{{route('group')}}" class="btn btn-light my-2">

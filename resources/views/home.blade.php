@@ -20,10 +20,17 @@
         </a>
     </div>
     <div>
-        <a href="{{route('quiz_all')}}" class="btn btn-light my-2">
-            <img width="30" src="{{asset('img/quiz.png')}}" alt="">
-            <span>復習テスト</span>
-        </a>
+        @if($phrase_exists)
+            <a href="{{route('quiz_all')}}" class="btn btn-light my-2">
+                <img width="30" src="{{asset('img/quiz.png')}}" alt="">
+                <span>復習テスト</span>
+            </a>
+        @else
+            <div class="btn btn-light my-2">
+                <img width="30" src="{{asset('img/quiz.png')}}" alt="">
+                <span>復習テスト</span>
+            </div>
+        @endif
 
     </div>
     <div>
