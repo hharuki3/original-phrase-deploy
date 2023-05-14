@@ -58,12 +58,8 @@
             <div class="border-top border-bottom p-4 mt-2">
                 <div class="row">
                     <div class="col-md-6">
-
+                        <!-- group.phpで選択したgroupに所属しているユーザーを表示 -->
                         <p class="text-start">{{$login_users[0]['name']}}</p>
-
-                        <!-- AppServiceProvider.phpで選択したgroupに所属しているユーザーを取得 -->
-                        <!-- $usersにログインユーザーが含まれている場合に表示 （ここは後回し）-->
-                        
                     </div>
                     @if($query_group)
                     <div class="col-md-6">

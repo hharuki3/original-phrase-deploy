@@ -239,7 +239,19 @@ class HomeController extends Controller
     public function invite(Request $request)
     {
         $posts = $request->all();
-        $group_id = $posts['group_id'];
+
+        if(isset($posts['group_id'])){
+            $group_id = $posts['group_id'];
+        }else{
+            $group_id = "";
+        }
+
+        if(isset($posts['new_group']) ){
+            $new_group_id = Group::insertGetId(['name' => $posts['new_group']]);
+            UserGroup::insert(['user_id' => \Auth::id(), 'group_id' => $new_group_id]);
+        }
+
+
         return view('invite', compact('group_id'));
     }
 
@@ -250,7 +262,21 @@ class HomeController extends Controller
         $recipientName = User::where('email', $posts['email'])->first()->name;
         $recipientEmail = User::where('email', $posts['email'])->first()->email;
         $fromName = auth()->user()->name;
-        $group_id = $posts['group_id'];
+
+        if(isset($posts['group_id'])){
+            //既存グループ招待処理
+            $group_id = $posts['group_id'];
+        }else{
+            //新規グループへの招待処理
+            $group_id = Group::select('groups.id')
+                ->orderBy('updated_at', 'DESC')
+                ->first();
+
+            $latest_group = Group::orderBy('updated_at', 'DESC')->first();
+            if ($latest_group) {
+                $group_id = $latest_group->id;
+            }
+        }
 
         $recipientEmail_exist = User::where('email', '=', $posts['email'])
         ->exists();

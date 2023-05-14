@@ -109,19 +109,25 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-10 px-5">
-                                <a href="{{route('invite')}}" class="btn btn-light my-2">新しいグループを追加</a></br>
-                                <!-- if(!$group[name]) -->
-                                <h4 class="py-3">参加しているグループ</h4>
-                                <!-- elseif
-                                foreach($groups as $group)
-                                <p>$group['name']</p>
-                                -->
+                            <div class="col-md-10 px-4">
+                                <form action="{{route('invite')}}" method="post">
+                                    @csrf
+                                    <div class="card shadow-sm mb-3">
+                                        <div class="card-body">
+                                            <input class="btn btn-lignt" type="submit" value="グループを作成">
+                                            <div class="text-center form-group">
+                                                <input class="form-control" type="text" name="new_group" placeholder="グループ名を記入して下さい">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <p class="pt-3 text-center">参加しているグループ</p>
+
                                 @if (!$group_exists)
                                 <p>参加しているグループはありません</p>
                                 @else
                                     @foreach($groups as $group)
-                                    <div>
+                                    <div class="text-center">
                                         <a href="/group/?group={{$group['id']}}" class="btn btn-light my-2">
                                             <span>{{$group['name']}}</span>
                                         </a>
