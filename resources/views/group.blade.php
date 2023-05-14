@@ -49,19 +49,27 @@
                 </div>
             </div>
 
+
             <div class="border-top border-bottom p-4 mt-2">
                 <div class="row">
                     <div class="col-md-6">
-                        @foreach($login_users as $login_user)
-                        <p class="text-start">{{$login_user['name']}}</p>
-                        @endforeach
+
+                        <p class="text-start">{{$login_users[0]['name']}}</p>
+
                         <!-- AppServiceProvider.phpで選択したgroupに所属しているユーザーを取得 -->
                         <!-- $usersにログインユーザーが含まれている場合に表示 （ここは後回し）-->
                         
                     </div>
+                    @if($query_group)
                     <div class="col-md-6">
-                        <a href="/" class="text-end">グループを退会</a>
+                        <form action="{{route('group_destroy')}}" method="post">
+                            @csrf
+                            <input type="hidden" name="login_user_id" value="{{ $login_users[0]['id'] }}">
+                            <input type="hidden" name="query_group" value="{{ $query_group }}">
+                            <input class="btn btn-light btn" type="submit" value="グループを退会">
+                        </form>
                     </div>
+                    @endif
                 </div>  
             </div>
 
@@ -72,6 +80,7 @@
                     <!-- foreach($groups as $group)-->
                     <div class="row">
                         @foreach($users as $user)
+
                         @if($query_group)
                             <div class="col-md-6 text-start">
                                 <!-- メンバー1 > $group[name] -->
@@ -87,9 +96,13 @@
                                 <a href="/group/?user={{ $user['id'] }}">投稿を見る</a>
                             </div>
 
-                        @else
+                        @elseif(!$query_group && !($query_user))
                             <div class="text-start">
                                 <p class="card-text">所属しているグループを選択してください。</p>
+                            </div>
+                        @elseif($query_user)
+                            <div class="text-start">
+                                <p class="card-text">投稿しているフレーズがありません。 </p>
                             </div>
                         @endif
                         @endforeach
@@ -97,7 +110,6 @@
                 </div>
             </div>
         @endif
-
     </div>
 </div>
 

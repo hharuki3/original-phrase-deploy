@@ -26,12 +26,18 @@ Route::get('/edit/{id}', [HomeController::class, 'edit'])->name('edit');
 Route::post('/update', [HomeController::class, 'update'])->name('update');
 Route::post('/update_checklist', [HomeController::class, 'update_checklist'])->name('update_checklist');
 Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('detail');
+
+//削除機能
 Route::post('/destroy', [HomeController::class, 'destroy'])->name('destroy');
 Route::post('/category_destroy', [HomeController::class, 'category_destroy'])->name('category_destroy');
+Route::post('/group_destroy', [HomeController::class, 'group_destroy'])->name('group_destroy');
+
+//クイズ機能
 Route::get('/quiz_all', [HomeController::class, 'quiz_all'])->name('quiz_all');
 Route::get('/quiz_checked', [HomeController::class, 'quiz_checked'])->name('quiz_checked');
 Route::get('/quiz_result', [HomeController::class, 'quiz_result'])->name('quiz_result');
 Route::post('/result', [HomeController::class, 'result'])->name('result');
+
 Route::get('/category', [HomeController::class, 'category'])->name('category');
 Route::get('/group', [HomeController::class, 'group'])->name('group');
 

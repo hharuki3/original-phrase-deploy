@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Group;
+use App\Models\UserGroup;
 use App\Models\Phrase;
 use App\Models\PhraseCategory;
 use App\Mail\Invitation;
 
 //Inviteを追加
 
-use App\Models\UserGroup;
 use DB;
 
 
@@ -184,6 +184,15 @@ class HomeController extends Controller
         // Category::where('id', '=', $posts['category_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
         Category::where('id', $posts['category_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
         return back();
+    }
+
+    public function group_destroy(Request $request)
+    {
+        $posts = $request->all();
+        UserGroup::where('user_id', $posts['login_user_id'])
+            ->where('group_id', $posts['query_group'])
+            ->delete();
+        return view('group');
     }
 
     public function quiz_all()

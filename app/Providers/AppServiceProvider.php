@@ -163,6 +163,7 @@ class AppServiceProvider extends ServiceProvider
                 ->with('query_group', $query_group)
                 ->with('users', $users)
                 ->with('login_users', $login_users)
+                ->with('query_user', $query_user)
                 ->with('group_user_phrases', $group_user_phrases);
 
         });
