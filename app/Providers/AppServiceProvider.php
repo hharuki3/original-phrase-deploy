@@ -33,8 +33,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //https通信を強制
-        if ($this->app->environment('production')) {
-            URL::forceScheme('https');
+        // if ($this->app->environment('production')) {
+        //     URL::forceScheme('https');
+        // }
+
+        if (\App::environment(['production'])) {
+            \URL::forceScheme('https');
         }
 
         //
