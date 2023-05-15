@@ -46,7 +46,8 @@
                         @if(!empty($selected_groups))
                             @foreach($selected_groups as $selected_group)
                                 <input type="hidden" name="group_id" value="{{$selected_group['id']}}">
-                                <input class="fas fa-plus mr-1" type="submit" value="{{$selected_group['name']}}へ招待する">
+                                <input class="btn btn-light" type="submit" value="{{$selected_group['name']}}へ招待する">
+
                             @endforeach
                         @endif
                     </form>
@@ -59,7 +60,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <!-- group.phpで選択したgroupに所属しているユーザーを表示 -->
-                        <p class="text-start">{{$login_users[0]['name']}}</p>
+                        <h4 class="text-start">{{$login_users[0]['name']}}</h4>
                     </div>
                     @if($query_group)
                     <div class="col-md-6 text-end">
@@ -78,7 +79,7 @@
                 <div class="card-body py-2">
                     <p class="card-title text-secondary small mb-1">メンバー一覧</p>
 
-                    <div class="row">
+                    <div class="row pt-2">
                         @foreach($users as $user)
 
                         @if($query_group)

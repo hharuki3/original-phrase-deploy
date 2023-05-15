@@ -6,7 +6,7 @@
 <div class="card-header">
     <div class="row h5 my-1">
         <div class="col-md-4 text-start">
-            <a href="/home" style="text-decoration:none;">一覧へ</a>
+            <a href="/home" style="text-decoration:none;">ホーム</a>
         </div>
         <div class="col-md-4 text-center">
             チェックから出題

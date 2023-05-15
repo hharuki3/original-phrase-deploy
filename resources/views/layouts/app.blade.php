@@ -80,7 +80,7 @@
         <main class="py-4">
             <div class="row">
                 <div class="col-md-3 mx-5">
-                    <div class="card">
+                    <div class="card h5">
                         <div class="card-header">
                             @yield('name')
                         </div>
