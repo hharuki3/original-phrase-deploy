@@ -16,6 +16,7 @@
     <div>
         <a href="{{route('category')}}" class="btn btn-light my-2">
             <img width="30" src="{{asset('img/home.png')}}" alt="">
+            @dd(asset('img/home.png'))
             <span>フレーズ一覧</span>
         </a>
     </div>
