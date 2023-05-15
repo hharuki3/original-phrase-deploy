@@ -30,7 +30,7 @@
                 @endif
 
                 
-                <form method="POST" action="{{ route('invitation_confirm') }}">
+                <form method="post" action="{{ route('invitation_confirm') }}">
                     @csrf
                     <div class="form-group">
                         <!-- グループidも送る -->

@@ -5,7 +5,7 @@
 
 
 <div class="bg-paper py-4">
-    <div class="container" style="max-width: 540px">
+    <div class="container" style="max-width: 600px">
         <!-- if(!$group[user]) -->
         @if (session('success'))
             <div class="alert alert-success">
@@ -18,13 +18,13 @@
             <div class="card-body">
                 <div class="form-group form-control-lg my-3">
                     <div class="row justify-content-center">
-                        <p class="text-center" style="width:50%;font-size:20px" >{{$group_user_phrase['japanese']}}</p>
+                        <p class="text-center" style="font-size:20px" >{{$group_user_phrase['japanese']}}</p>
                     </div>
                     <div class="row justify-content-center">
-                        <p class="text-center" style="width:50%;font-size:20px" >{{$group_user_phrase['phrase']}}</p>
+                        <p class="text-center" style="font-size:20px" >{{$group_user_phrase['phrase']}}</p>
                     </div>
                     <div class="row justify-content-center">
-                        <p class="text-center" style="width:50%;font-size:20px" >{{$group_user_phrase['memo']}}</p>
+                        <p class="text-center" style="font-size:20px" >{{$group_user_phrase['memo']}}</p>
                     </div>
                 </div>
             </div>  
@@ -62,12 +62,12 @@
                         <p class="text-start">{{$login_users[0]['name']}}</p>
                     </div>
                     @if($query_group)
-                    <div class="col-md-6">
+                    <div class="col-md-6 text-end">
                         <form action="{{route('group_destroy')}}" method="post">
                             @csrf
+                            <input class="btn btn-light btn" type="submit" value="グループを退会">
                             <input type="hidden" name="login_user_id" value="{{ $login_users[0]['id'] }}">
                             <input type="hidden" name="query_group" value="{{ $query_group }}">
-                            <input class="btn btn-light btn" type="submit" value="グループを退会">
                         </form>
                     </div>
                     @endif

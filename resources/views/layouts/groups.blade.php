@@ -116,7 +116,7 @@
                                         <div class="card-body">
                                             <input class="btn btn-lignt" type="submit" value="グループを作成">
                                             <div class="text-center form-group">
-                                                <input class="form-control" type="text" name="new_group" placeholder="グループ名を記入して下さい">
+                                                <input class="form-control" type="text" name="new_group" required placeholder="グループ名を記入して下さい">
                                             </div>
                                         </div>
                                     </div>
