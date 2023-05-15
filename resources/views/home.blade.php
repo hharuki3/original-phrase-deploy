@@ -15,20 +15,19 @@
 <div class="mx-2">
     <div>
         <a href="{{route('category')}}" class="btn btn-light my-2">
-            <img width="30" src="{{asset('img/home.png')}}" alt="">
-            @dd(asset('img/home.png'))
+            <img width="30" src="{{asset('img/category.png')}}" alt="">
             <span>フレーズ一覧</span>
         </a>
     </div>
     <div>
         @if($phrase_exists)
             <a href="{{route('quiz_all')}}" class="btn btn-light my-2">
-                <img width="30" src="{{asset('img/quiz.png')}}" alt="">
+                <img width="30" src="{{asset('img/quizzes.png')}}" alt="">
                 <span>復習テスト</span>
             </a>
         @else
             <div class="btn btn-light my-2">
-                <img width="30" src="{{asset('img/quiz.png')}}" alt="">
+                <img width="30" src="{{asset('img/quizzes.png')}}" alt="">
                 <span>復習テスト</span>
             </div>
         @endif
@@ -36,7 +35,7 @@
     </div>
     <div>
         <a href="{{route('group')}}" class="btn btn-light my-2">
-            <img width="30" src="{{asset('img/groups.png')}}" alt="">
+            <img width="30" src="{{asset('img/group.png')}}" alt="">
             <span>グループ</span>
         </a>
     </div>

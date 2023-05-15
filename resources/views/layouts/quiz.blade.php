@@ -89,17 +89,22 @@
                             <div class="col-md-2">
                                 <div>
                                     <a href="/" class="btn btn-light my-2">
-                                    <img width="30" src="{{asset('img/home.png')}}" alt="">
+                                        <img width="30" src="{{asset('img/homes.png')}}" alt="">
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="/" class="btn btn-light my-2">
+                                        <img width="30" src="{{asset('img/category.png')}}" alt="">
                                     </a>
                                 </div>
                                 <div>
                                     <a href="{{route('quiz_all')}}" class="btn btn-light my-2">
-                                        <img width="30" src="{{asset('img/quiz.png')}}" alt="">
+                                        <img width="30" src="{{asset('img/quizzes.png')}}" alt="">
                                     </a>
                                 </div>
                                 <div>
                                     <a href="{{route('group')}}" class="btn btn-light my-2">
-                                        <img width="30" src="{{asset('img/groups.png')}}" alt="">
+                                        <img width="30" src="{{asset('img/group.png')}}" alt="">
                                     </a>
                                 </div>
                             </div>
