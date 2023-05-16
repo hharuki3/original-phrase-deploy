@@ -133,7 +133,7 @@
                                 @else
                                     @foreach($groups as $group)
                                     <div class="text-center">
-                                        <a href="/group/?group={{$group['id']}}" class="btn btn-light my-2">
+                                        <a href="https://original-phrase-heroku4.herokuapp.com/group?group={{$group['id']}}" class="btn btn-light my-2">
                                             <span>{{$group['name']}}</span>
                                         </a>
                                     </div>
