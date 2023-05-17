@@ -282,6 +282,8 @@ class HomeController extends Controller
         ->exists();
         $token = bin2hex(random_bytes(32)); // ランダムなトークンの生成
         // $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
+
+        //heroku用URL
         $url = 'https://original-phrase-heroku4.herokuapp.com/login?token=' . $token; // 招待URLの作成
 
         // inviteテーブルに追加

@@ -134,6 +134,7 @@
                                     @foreach($groups as $group)
                                     <div class="text-center">
                                         <!-- <a href="/group?group=" class="btn btn-light my-2"> -->
+                                            <!-- heroku用URL -->
                                         <a href="https://original-phrase-heroku4.herokuapp.com/group?group={{$group['id']}}" class="btn btn-light my-2">
                                             <span>{{$group['name']}}</span>
                                         </a>
