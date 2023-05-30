@@ -11,7 +11,7 @@
         const elements = document.querySelectorAll('.english');
         if(checkbox.checked){
             elements.forEach(element => element.style.display = 'none');
-    
+          
         }else{
             elements.forEach(element => element.style.display = '');
         }

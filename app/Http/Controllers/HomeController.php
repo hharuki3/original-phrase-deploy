@@ -234,6 +234,12 @@ class HomeController extends Controller
 
     }
 
+
+    public function quiz_category()
+    {
+        return view('quiz_category');
+    }
+
     public function result(Request $request)
     {
         $posts = $request->all();

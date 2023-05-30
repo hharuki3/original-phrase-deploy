@@ -173,6 +173,7 @@ class AppServiceProvider extends ServiceProvider
                 ->with('group_exists', $group_exists)
                 ->with('groups', $groups)
                 ->with('query_group', $query_group)
+                ->with('query_category', $query_category)
                 ->with('users', $users)
                 ->with('login_users', $login_users)
                 ->with('query_user', $query_user)

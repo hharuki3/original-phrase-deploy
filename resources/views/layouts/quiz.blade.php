@@ -111,7 +111,15 @@
                             <div class="col-md-9 px-5">
                                 <a href="{{route('quiz_checked')}}" class="btn btn-light my-2">チェックから出題</a></br>
                                 <a href="{{route('quiz_all')}}" class="btn btn-light my-2">全て出題</a>
-                                
+                                @foreach($categories as $category)
+                                <div id="category_id">
+                                    <!-- herokuにデプロイする場合は、https通信となるようfull pathを指定。groupsテーブルも同様。# -->
+                                    <!-- <a href="/category/?category=" class="btn btn-light my-2"> -->
+                                    <a href="/quiz_category/?category={{$category['id']}}" class="btn btn-light my-2">
+                                        <span>{{$category['name']}}</span>
+                                    </a>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
                         </div>

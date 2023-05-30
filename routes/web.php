@@ -36,6 +36,7 @@ Route::post('/group_destroy', [HomeController::class, 'group_destroy'])->name('g
 //クイズ機能
 Route::get('/quiz_all', [HomeController::class, 'quiz_all'])->name('quiz_all');
 Route::get('/quiz_checked', [HomeController::class, 'quiz_checked'])->name('quiz_checked');
+Route::get('/quiz_category', [HomeController::class, 'quiz_category'])->name('quiz_category');
 Route::get('/quiz_result', [HomeController::class, 'quiz_result'])->name('quiz_result');
 Route::post('/result', [HomeController::class, 'result'])->name('result');
 

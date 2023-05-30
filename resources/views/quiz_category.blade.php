@@ -85,19 +85,21 @@
         let num = 0;
         //console.log(param);
         let JSPhrases = @json($phrases);
+        let query_category = @json($query_category);
         const next = document.querySelector('#next');
 
         next.addEventListener('click', () => {
             num = num + 1;
-            console.log(param[num]);
             if (num < param.length) {
-                console.log('if文');
+                console.log("hello");
+
                 document.getElementById("japanese").innerHTML = `<p>${JSPhrases[param[num]]['japanese']}</p>`;
                 document.getElementById("phrase").innerHTML = ``;
                 document.getElementById("memo").innerHTML = ``;
                 
             } else {
-                console.log('else文');
+                console.log("goodbye");
+
                 document.getElementById("answer").innerHTML = '';
                 document.getElementById("japanese").innerHTML = '';
                 document.getElementById("phrase").innerHTML = '';
@@ -111,7 +113,7 @@
                 button.className = "btn btn-primary my-5"
                 button.style.fontSize = "1rem"
                 button.addEventListener('click', function() {
-                window.location.href = 'quiz_all';
+                window.location.href = 'quiz_category?category=' + query_category;
                 });
                 again.appendChild(button);
                 // document.body.appendChild(button); 
