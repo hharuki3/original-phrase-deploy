@@ -22,12 +22,15 @@
                     <div class="card-header">カテゴリー</div>
                     <div class="card-body">
                         <div>
-                            <div class="text-center form-group mb-4">
+                            <div class="text-center form-group">
                                 <input class="form-control" type="text" name="new_category" placeholder="新しいカテゴリーを追加">
                             </div>
+                            @error('new_category')
+                                <div style="color:red;">{{'※このカテゴリーはすでに存在しています。'}}</div>
+                            @enderror
                             <input type="hidden" name="categories">
                             @foreach($categories as $category)
-                            <div class="my-3">
+                            <div class="my-3 mt-4">
                                 <div class="d-flex justify-content-between">
                                     <div class="px-3">
                                         <input type="checkbox" name="categories[]" id="{{$category['id']}}" value="{{$category['id']}}"

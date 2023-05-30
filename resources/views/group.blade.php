@@ -26,13 +26,13 @@
                     <div class="row justify-content-center">
                         <p class="text-center" style="font-size:20px" >{{$group_user_phrase['memo']}}</p>
                     </div>
+                    <div class="border-top p-4 mt-2">
                 </div>
             </div>  
-            <div class="border-top p-4 mt-2">
             @endforeach
 
         @else
-            <p>あなたの登録したフレーズを簡単に共有できます</p>
+            <p>あなたの登録したフレーズを簡単に共有できます。</p>
             <div class="row">
                 <div class="col-sm-8">
                     <h5>友達を招待しよう</h5>
@@ -47,7 +47,6 @@
                             @foreach($selected_groups as $selected_group)
                                 <input type="hidden" name="group_id" value="{{$selected_group['id']}}">
                                 <input class="btn btn-light" type="submit" value="{{$selected_group['name']}}へ招待する">
-
                             @endforeach
                         @endif
                     </form>

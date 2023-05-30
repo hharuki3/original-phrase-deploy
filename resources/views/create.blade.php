@@ -1,6 +1,7 @@
 @extends('layouts.register')
 
 @section('content')
+
     <!-- route('store')と書くと、/storeと同義 -->
     <form action="{{route('store')}}" method="post">
         @csrf
@@ -10,11 +11,15 @@
                     <div class="card-header">カテゴリー</div>
                     <div class="card-body">
                         <div>
-                            <div class="text-center form-group mb-4">
+                            <div class="text-center form-group">
                                 <input class="form-control" type="text" name="new_category" placeholder="カテゴリーを追加">
                             </div>
+                            <!-- リダイレクトすると入力欄がリセットされる。 -->
+                            @error('new_category')
+                                <div style="color:red;">{{'※このカテゴリーはすでに存在しています。'}}</div>
+                            @enderror
                             @foreach($categories as $category)
-                            <div class="my-3">
+                            <div class="my-3 mt-4">
                                 <div class="d-flex justify-content-between">
                                     <dvi class="px-3">
                                         <input type="checkbox" name="categories[]" id="{{$category['id']}}" value="{{$category['id']}}">
@@ -71,5 +76,5 @@
             </div> 
         </div>
     </form>
-        @endsection
+@endsection
 

@@ -15,11 +15,6 @@
                             {{in_array($category['id'], $include_categories) ? 'checked' : ''}} >
                             <label for="{{$category['id']}}">{{$category['name']}}</label>
                         </div>
-                        <!-- <input type="submit" name="categories[]" value="{{$category['id']}}" form="parent"> -->
-                        <div class="text-center px-3">
-                            <button  name="category_id" value="{{$category['id']}}" form="parent" class="btn btn-light"  onclick="deleteHandle(event);">削除</button>
-                        </div>
-
                     </div>
                 </div>
                 @endforeach

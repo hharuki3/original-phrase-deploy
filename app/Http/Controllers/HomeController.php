@@ -52,6 +52,15 @@ class HomeController extends Controller
     {
         $posts = $request->all();
         // dd($posts);
+
+        //バリデーション
+        $request->validate([
+            'japanese' => 'required',
+            'phrase' => 'required',
+            'memo' => 'required',
+            'new_category' => 'unique:categories,name',
+        ]);
+
         DB::transaction(function() use($posts){
             $phrase_id = Phrase::insertGetId(['japanese' => $posts['japanese'], 'phrase' => $posts['phrase'], 
             'memo' => $posts['memo'], 'user_id' => \Auth::id()]);
@@ -100,6 +109,13 @@ class HomeController extends Controller
     {
         $posts = $request->all();
         // dd($posts);
+        $request->validate([
+            'japanese' => 'required',
+            'phrase' => 'required',
+            'memo' => 'required',
+            'new_category' => 'unique:categories,name',
+        ]);
+
         DB::transaction(function() use($posts){
             Phrase::where('id', '=', $posts['phrase_id'])
                 ->update(['japanese' => $posts['japanese'], 'phrase' => $posts['phrase'], 'memo' => $posts['memo']]);
@@ -239,6 +255,10 @@ class HomeController extends Controller
     public function invite(Request $request)
     {
         $posts = $request->all();
+        // dd($posts);
+        $request->validate([
+            'new_group' => 'required',
+        ]);
 
         if(isset($posts['group_id'])){
             $group_id = $posts['group_id'];
