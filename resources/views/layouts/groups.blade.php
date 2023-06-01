@@ -115,7 +115,7 @@
                                 </div>
                             </div>
                             <div class="col-md-10 px-4">
-                                <form action="{{route('invite')}}" method="post">
+                                <form action="{{route('new_invite')}}" method="post">
                                     @csrf
                                     <div class="card shadow-sm mb-3">
                                         <div class="card-body">
@@ -133,9 +133,9 @@
                                 @else
                                     @foreach($groups as $group)
                                     <div class="text-center">
-                                        <!-- <a href="/group?group=" class="btn btn-light my-2"> -->
+                                        <a href="/group?group={{$group['id']}}" class="btn btn-light my-2">
                                             <!-- heroku用URL -->
-                                        <a href="https://original-phrase-heroku4.herokuapp.com/group?group={{$group['id']}}" class="btn btn-light my-2">
+                                        <!-- <a href="https://original-phrase-heroku4.herokuapp.com/group?group=" class="btn btn-light my-2"> -->
                                             <span>{{$group['name']}}</span>
                                         </a>
                                     </div>

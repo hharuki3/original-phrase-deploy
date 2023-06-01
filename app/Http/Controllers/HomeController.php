@@ -258,32 +258,41 @@ class HomeController extends Controller
 
 
 
-    public function invite(Request $request)
+    public function invite($id)
     {
-        $posts = $request->all();
-        // dd($posts);
-        $request->validate([
-            'new_group' => 'required',
-        ]);
-
-        if(isset($posts['group_id'])){
-            $group_id = $posts['group_id'];
-        }else{
-            $group_id = "";
-        }
-
-        if(isset($posts['new_group']) ){
-            $new_group_id = Group::insertGetId(['name' => $posts['new_group']]);
-            UserGroup::insert(['user_id' => \Auth::id(), 'group_id' => $new_group_id]);
-        }
-
+        //$idはクエリパラメータのIDとgroupsテーブルのIDが一致したgroup_idを指す。
+        $group_id = UserGroup::select('user_groups.group_id')
+            ->where('group_id', '=', $id)
+            ->where('user_id', '=', \Auth::id())
+            ->get();
 
         return view('invite', compact('group_id'));
     }
 
-    public function invitation_confirm(Request $request)
+    public function new_invite(Request $request)
     {
         $posts = $request->all();
+
+        $request->validate([
+            'new_group' => 'required'
+        ]);
+        $group_id = [];
+        $new_group_id = Group::insertGetId(['name' => $posts['new_group']]);
+        UserGroup::insert(['user_id' => \Auth::id(), 'group_id' => $new_group_id]);
+
+        return view('invite', compact('group_id'));
+
+    }
+
+    public function invitation_confirm(Request $request)
+    {
+        //??get通信になっているらしい。どこで？
+        $posts = $request->all();
+        dd($posts);
+        $request->validate([
+            'email' => 'required|email:filter,dns'
+        ]);
+
         // $recipientName メール受信者の名前 / $recipientEmail メール受信者のメールアドレス / fromName メール送信者の名前
         $recipientName = User::where('email', $posts['email'])->first()->name;
         $recipientEmail = User::where('email', $posts['email'])->first()->email;

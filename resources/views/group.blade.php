@@ -41,15 +41,10 @@
                     <!-- <a class="btn btn-block bg-paper btn-outline-teal1 text-teal1" href="">
                         <i class="fas fa-plus mr-1"></i><b>招待する</b>
                     </a> -->
-                    <form action="{{route('invite')}}" method="post">
-                        @csrf
-                        @if(!empty($selected_groups))
-                            @foreach($selected_groups as $selected_group)
-                                <input type="hidden" name="group_id" value="{{$selected_group['id']}}">
-                                <input class="btn btn-light" type="submit" value="{{$selected_group['name']}}へ招待する">
-                            @endforeach
-                        @endif
-                    </form>
+
+                    @if($selected_groups)
+                        <a href="invite/{{$selected_groups[0]['id']}}" class="btn btn-light">招待する</a>
+                    @endif
                     
                 </div>
             </div>

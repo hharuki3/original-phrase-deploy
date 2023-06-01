@@ -29,20 +29,28 @@
                 </div>
                 @endif
 
-                
+
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form method="post" action="{{ route('invitation_confirm') }}">
                     @csrf
                     <div class="form-group">
                         <!-- グループidも送る -->
                         <label for="email">メールアドレス</label>
-                        <input class="form-control" type="email" id="email" name="email" required
+                        <input class="form-control" type="email" id="email" name="email"
                             placeholder="メールアドレスを入力" value="{{ old('email') }}">
                         <p class="text-muted small ml-1 mb-0">※招待したいユーザーのメールアドレスを入力してください。</p>
                         <p class="text-muted small ml-1">※メール送信後、24時間以内に登録してください。</p>
                     </div>
-                    @if(!empty($group_id))
-                    <input type="hidden" name="group_id" value="{{$group_id}}">
-                    @endif
+                    @dd($group_id)
+                    <input type="hidden" name="group_id" value="{{$group_id['id']}}">
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary mt-4">
                             <b>送信する</b>
