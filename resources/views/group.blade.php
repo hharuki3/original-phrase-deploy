@@ -14,11 +14,11 @@
         @endif
 
         @if(!empty($group_user_phrases))
-            @foreach($group_user_phrases as $group_user_phrase)
-            <div class="card-body">
-                <div class="form-group form-control-lg my-3">
+        <div class="card-body">
+            <div class="form-group form-control-lg my-3">
+                @foreach($group_user_phrases as $group_user_phrase)
                     <div class="row justify-content-center">
-                        <p class="text-center" style="font-size:20px" >{{$group_user_phrase['japanese']}}</p>
+                        <p class="text-center mt-4" style="font-size:20px" >{{$group_user_phrase['japanese']}}</p>
                     </div>
                     <div class="row justify-content-center">
                         <p class="text-center" style="font-size:20px" >{{$group_user_phrase['phrase']}}</p>
@@ -26,10 +26,10 @@
                     <div class="row justify-content-center">
                         <p class="text-center" style="font-size:20px" >{{$group_user_phrase['memo']}}</p>
                     </div>
-                    <div class="border-top p-4 mt-2">
-                </div>
-            </div>  
-            @endforeach
+                    <div class="border-top">
+                @endforeach
+            </div>
+        </div>  
 
         @else
             <p>あなたの登録したフレーズを簡単に共有できます。</p>
@@ -42,6 +42,7 @@
                         <i class="fas fa-plus mr-1"></i><b>招待する</b>
                     </a> -->
 
+                    
                     @if($selected_groups)
                         <a href="invite/{{$selected_groups[0]['id']}}" class="btn btn-light">招待する</a>
                     @endif

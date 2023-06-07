@@ -49,8 +49,7 @@
                         <p class="text-muted small ml-1 mb-0">※招待したいユーザーのメールアドレスを入力してください。</p>
                         <p class="text-muted small ml-1">※メール送信後、24時間以内に登録してください。</p>
                     </div>
-                    @dd($group_id)
-                    <input type="hidden" name="group_id" value="{{$group_id['id']}}">
+                    <input type="hidden" name="group_id" value="{{$group_id}}">
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary mt-4">
                             <b>送信する</b>
@@ -64,4 +63,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection 

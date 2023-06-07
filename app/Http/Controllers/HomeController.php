@@ -261,22 +261,28 @@ class HomeController extends Controller
     public function invite($id)
     {
         //$idはクエリパラメータのIDとgroupsテーブルのIDが一致したgroup_idを指す。
+        
         $group_id = UserGroup::select('user_groups.group_id')
             ->where('group_id', '=', $id)
             ->where('user_id', '=', \Auth::id())
-            ->get();
-
+            ->first();
+        if($group_id){
+            $group_id = $group_id->group_id;
+        }else{
+            return view('group');
+        }
         return view('invite', compact('group_id'));
     }
 
     public function new_invite(Request $request)
     {
         $posts = $request->all();
-
+        
         $request->validate([
             'new_group' => 'required'
         ]);
-        $group_id = [];
+        $group_id = '';
+        // dd('new_invite');
         $new_group_id = Group::insertGetId(['name' => $posts['new_group']]);
         UserGroup::insert(['user_id' => \Auth::id(), 'group_id' => $new_group_id]);
 
@@ -288,7 +294,7 @@ class HomeController extends Controller
     {
         //??get通信になっているらしい。どこで？
         $posts = $request->all();
-        dd($posts);
+        // dd($posts);
         $request->validate([
             'email' => 'required|email:filter,dns'
         ]);
@@ -316,12 +322,15 @@ class HomeController extends Controller
         $recipientEmail_exist = User::where('email', '=', $posts['email'])
         ->exists();
         $token = bin2hex(random_bytes(32)); // ランダムなトークンの生成
-        // $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
+
+        //localhost用URL
+        $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
 
         //heroku用URL
-        $url = 'https://original-phrase-heroku4.herokuapp.com/login?token=' . $token; // 招待URLの作成
+        // $url = 'https://original-phrase-heroku4.herokuapp.com/login?token=' . $token; // 招待URLの作成
 
         // inviteテーブルに追加
+        //どこかでリダイレクトが行われている？？
         Invite::insert(['group_id' => $group_id, 'token' => $token]);
         Mail::to($recipientEmail)->send(new Invitation($recipientName, $url));
 
