@@ -50,6 +50,7 @@ Route::get('/friends_phrases/{id}', [HomeController::class, 'friends_phrases'])-
 Route::get('/invite/{id}', [HomeController::class, 'invite'])->name('invite');
 Route::post('/new_invite', [HomeController::class, 'new_invite'])->name('new_invite');
 
+
 //「メール確認画面表示」処理
 Route::post('/invitation_confirm',[HomeController::class, 'invitation_confirm'])->name('invitation_confirm');
 

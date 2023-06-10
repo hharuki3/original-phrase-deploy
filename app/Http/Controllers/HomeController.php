@@ -277,27 +277,49 @@ class HomeController extends Controller
     public function new_invite(Request $request)
     {
         $posts = $request->all();
-        
+        // dd($posts);
         $request->validate([
             'new_group' => 'required'
         ]);
-        $group_id = '';
+        
+        // $group_id = '';
         // dd('new_invite');
         $new_group_id = Group::insertGetId(['name' => $posts['new_group']]);
         UserGroup::insert(['user_id' => \Auth::id(), 'group_id' => $new_group_id]);
 
-        return view('invite', compact('group_id'));
+        $groups = Group::select('groups.*')
+                ->whereNull('deleted_at')
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+        return view('group', ['groups' => $groups]);
 
     }
 
+
     public function invitation_confirm(Request $request)
     {
-        //??get通信になっているらしい。どこで？
+        //??get通信になっているらしい。どこで？ > バリデーションでリダイレクトする時
         $posts = $request->all();
         // dd($posts);
+        // $request->validate([
+        //     'email' => 'required|email:filter,dns'
+        // ]);
+
         $request->validate([
             'email' => 'required|email:filter,dns'
         ]);
+
+        // $validator = Validator::make($request->all(),[
+        //     'email' => 'required|email:filter,dns'
+        // ]);
+
+        
+
+        // if($validator->fails()){
+        //     return redirect()->route('new_invite')->withInput($request->all())->withErrors($validator);
+        // }
+
 
         // $recipientName メール受信者の名前 / $recipientEmail メール受信者のメールアドレス / fromName メール送信者の名前
         $recipientName = User::where('email', $posts['email'])->first()->name;
@@ -334,7 +356,6 @@ class HomeController extends Controller
         Invite::insert(['group_id' => $group_id, 'token' => $token]);
         Mail::to($recipientEmail)->send(new Invitation($recipientName, $url));
 
-        // コマンドプロンプトでmailhogを実行しないとエラーになる。
         //invitation.php経由のinvitation_confirm.phpへのアクセスとreturn view経由でのアクセスでどちらも変数を指定する必要がある。
         // return view('invitation_confirm', compact('recipientName', 'url', 'fromName'));
         return redirect('/group')->with('success', 'メールを送信しました。');
