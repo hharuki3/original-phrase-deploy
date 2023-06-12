@@ -36,17 +36,15 @@
 <div class="card-body text-center h5">
     <div id="again"></div>
     <div id="UnKnownAgain"></div>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <div>
         <div class="my-5" id="japanese">
-            <p scope="row" style="display:inline-flex" class="japanese">{{$phrases[$randoms[0]]['japanese']}}</p>
+            <p scope="row" style="display:inline-flex" class="japanese">{{$retry_phrases[$retry_randoms[0]]['japanese']}}</p>
         </div>
         <div class="my-5" id="phrase">
-            <p scope="row" style="display:inline-flex" class="english">{{$phrases[$randoms[0]]['phrase']}}</p>
+            <p scope="row" style="display:inline-flex" class="english">{{$retry_phrases[$retry_randoms[0]]['phrase']}}</p>
         </div>
         <div class="my-5" id="memo">
-            <p scope="row" style="display:inline-flex" class="memo">{{$phrases[$randoms[0]]['memo']}}</p>
+            <p scope="row" style="display:inline-flex" class="memo">{{$retry_phrases[$retry_randoms[0]]['memo']}}</p>
         </div>
     </div>
 
@@ -83,10 +81,12 @@
     <script src="{{ asset('/js/questions.js') }}"></script>
 
     <script>
-
-        const param = @json($randoms);
+        // localStorageからデータを取得し、JSON形式の文字列から配列に変換
+        // var retry_UnKnownQuestionIds = JSON.parse(localStorage.getItem('UnKnownQuestionIds'));
+        // console.log(retry_UnKnownQuestionIds);
+        const param = @json($retry_randoms);
         let num = 0;
-        let JSPhrases = @json($phrases);
+        let JSPhrases = @json($retry_phrases);
         const next = document.querySelector('#next');
         //「わからない」フレーズのIDを格納する配列
         let UnKnownQuestionIds = [];
@@ -103,8 +103,6 @@
                 const button = document.createElement('button');
                 const UnKnownAgain = document.getElementById('UnKnownAgain');
                 const UnKnownbutton = document.createElement('button');
-                
-
 
                 document.getElementById("answer").innerHTML = '';
                 document.getElementById("japanese").innerHTML = '';
@@ -113,18 +111,13 @@
                 document.getElementById("Known").innerHTML = '';
                 document.getElementById("UnKnown").innerHTML = '';
                 document.getElementById("next").innerHTML = '';
-                
-                button.textContent = 'もう一度';
-                button.className = "btn btn-primary my-5"
-                button.style.fontSize = "1rem"
-                button.addEventListener('click', function() {
-                window.location.href = 'quiz_all';
-                });
-                again.appendChild(button);
 
+                
+                
+                
                 
                 if(UnKnownQuestionIds.length > 0){
-
+                    console.log(UnKnownQuestionIds.length);
                     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                     const UnKnownform = document.createElement('form');
                     UnKnownform.method = 'POST';
@@ -138,7 +131,6 @@
                     console.log(UnKnownQuestionIds);
                     console.log(UnKnownInput.value);
 
-                    
                     const UnKnownSubmit = document.createElement('input');
                     UnKnownSubmit.type = 'submit';
                     UnKnownSubmit.value = '分からない問題のみ出題';
@@ -149,24 +141,24 @@
                     csrfInput.name = '_token';
                     csrfInput.value = csrfToken;
 
+
+                    
                     UnKnownform.appendChild(csrfInput);
                     UnKnownform.appendChild(UnKnownInput);
                     UnKnownform.appendChild(UnKnownSubmit);
                     UnKnownAgain.appendChild(UnKnownform);
-                    
-                
-                    // UnKnownbutton.textContent = '分からない問題のみ出題';
-                    // UnKnownbutton.className = 'btn btn-primary my-5';
-                    // UnKnownbutton.style.fontSize = "1rem"
-                    // UnKnownbutton.addEventListener('click', function() {
-                    // window.location.href = 'quiz_unknown';
-                    // });
-                    console.log('分からないボタンが一度は押された');
-                    // UnKnownAgain.appendChild(UnKnownbutton);
-
                 }else{
-                    console.log('分からないボタンは押されていない');
-                }
+                    button.textContent = '全ての問題が合格です。お疲れ様でした!';
+                    button.className = "btn btn-primary my-5"
+                    button.style.fontSize = "1rem"
+                    button.addEventListener('click', function() {
+                        console.log('分からないボタンは押されていない');
+                        window.location.href = 'home';
+                    });
+                    again.appendChild(button);
+                };
+
+
                 // document.body.appendChild(button); 
             }
             Eelements.forEach(element => element.style.display = 'none');
@@ -177,6 +169,10 @@
 
         function Display_JS(quiz){
             if(quiz == "answer" || quiz == "Known" || quiz == "UnKnown"){
+
+                console.log(param[num]);
+                //JSPhrases[][]の最初の[]はフレーズの数を表している。
+                //一方、UnKnownQuestionIdsはDBに登録されているフレーズのIDを表している。
 
                 const checklist = `${JSPhrases[param[num]]['checklist']}`; 
                 if(checklist =="checked"){
@@ -227,49 +223,8 @@
 
         }
     
-        //「わからない」ボタンがクリックされた時のイベントハンドラ
-        // document.getElementById('UnKnown').addEventListener('click', function() {
-        //     let currentQuestionId = `${JSPhrases[param[num]]['id']}`;
-        //     UnKnownQuestionIds.push(currentQuestionId);
-        //     console.log(UnKnownQuestionIds);
-        // });
-
-        //「間違えた問題だけ出題」ボタンがクリックされた時のイベントハンドラ
-        // document.getElementById('retryUnKnown').addEventListener('click', function() {
-        //     UnKnownQuestionIds.foreach(id => {
-                
-        //     })
-        // })
-
-
-
-
-
     </script>
 @endsection
-
-<!-- チェックボックスを押すと、phraseのテーブルにあるis_existカラムにチェックがつく。
-    んで、チェックがついたphraseだけ出題させる。
-    テーブルに登録していく必要があるということは、postでcontroller側に値を飛ばして、そこでカラムに追加する作業が必要になる。
-    postで飛ばすということは、「次」ボタンを押したら画面遷移しなければならないということになる。
-    そうなるとせっかくjsで画面遷移なく次の問題に移行できたのに意味がなくなる。  
-    可能ならカラムを使わずに、いや値を保持するにはデータベースに値を登録しなければならない？
-    そうなると、postで送信が条件になるから、コードを書き換える必要性が出てくる。面倒臭い -->
-
-
-
-<!-- jsの読み込みはyieldでcontentを先に読み込んだとしても
-    section('javascript')はcontentの後に記述した方が良い。 -->
-
-
-<!-- ElementCountの名前を適切な名前に変更
-    チェックリスト機能はphraseテーブルにis_set?, is_exist?のカラムを設けて、true or falseでチェックしてるかどうかを判断
-    後もう一つくらいあった気がするけどなんだったかな。
-    `〇〇` この点々のなかで${}で記述したJSコードを有効にできる。
-    laravelのタブを自動調整してくれる拡張機能を入れる
-     -->
-
-
 
 
 

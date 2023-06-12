@@ -109,11 +109,13 @@ class HomeController extends Controller
     {
         $posts = $request->all();
         // dd($posts);
+        //カテゴリーを削除したら、以下のバリデーションは無効とする。
         $request->validate([
             'japanese' => 'required',
             'phrase' => 'required',
             'memo' => 'required',
-            'new_category' => 'unique:categories,name',
+            'new_category' => 'unique:categories,name,NULL,id,deleted_at,NULL'
+
         ]);
 
         DB::transaction(function() use($posts){
@@ -216,6 +218,30 @@ class HomeController extends Controller
     {
             // dd($edit_phrase);
         return view('quiz_all');
+    }
+
+    public function quiz_unknown(Request $request)
+    {
+        $posts = $request->input('retry_phrases');
+        $posts = json_decode($posts[0], true);  // 一つ目の要素（JSON文字列）を再度デコード
+
+
+        //ここが違う。jsでセッションに保存したidのフレーズをDBから取得する必要がある。
+        //where('id', '=', ここにセッションに保存した配列)
+        // $posts = $request->all();
+        // dd($posts);
+        $retry_phrases = Phrase::select('phrases.*')
+            ->whereIn('id', $posts)
+            ->whereNull('deleted_at')
+            ->where('user_id', '=', \Auth::id())
+            ->get();
+
+        //count($retry_phrases)=1の場合はどうするか。
+        $retry_randoms = range(0,count($retry_phrases)-1);
+        shuffle($retry_randoms);
+
+        return view('quiz_unknown', compact('retry_phrases', 'retry_randoms'));
+
     }
 
     public function quiz_checked()
