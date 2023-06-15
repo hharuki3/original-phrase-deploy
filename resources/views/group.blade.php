@@ -89,9 +89,9 @@
                                     $targetUrl = str_replace($baseUrl, '', $currentUrl);
                                 @endphp
                                 <!-- このページにphraseを表示させる or phraseページを作成し、そこに遷移させる -->
-                                <a href="/group/?user={{ $user['id'] }}">投稿を見る</a>
+                                <!-- <a href="/group/?user=">投稿を見る</a> -->
                                 <!-- herou用URL -->
-                                <!-- <a href="https://original-phrase-heroku4.herokuapp.com/group?user=">投稿を見る</a> -->
+                                <a href="https://original-phrase-heroku4.herokuapp.com/group?user={{ $user['id'] }}">投稿を見る</a>
                             </div>
 
                         @elseif(!$query_group && !($query_user))

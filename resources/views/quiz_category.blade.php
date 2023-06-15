@@ -126,7 +126,9 @@
                 button.className = "btn btn-primary my-5"
                 button.style.fontSize = "1rem"
                 button.addEventListener('click', function() {
-                    window.location.href = 'quiz_category?category=' + query_category;
+                    // window.location.href = 'quiz_category?category=' + query_category;
+                    //heroku用URL
+                    window.location.href = 'https://original-phrase-heroku4.herokuapp.com/quiz_category?category=' + query_category;
                 });
                 again.appendChild(button);
 

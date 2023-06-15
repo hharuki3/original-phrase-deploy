@@ -40,8 +40,8 @@
         @foreach($categories as $category)
         <div>
             <!-- herokuにデプロイする場合は、https通信となるようfull pathを指定。groupsテーブルも同様。# -->
-            <a href="/category/?category={{$category['id']}}" class="btn btn-light my-2">
-            <!-- <a href="https://original-phrase-heroku4.herokuapp.com/category?category=" class="btn btn-light my-2"> -->
+            <!-- <a href="/category/?category=" class="btn btn-light my-2"> -->
+            <a href="https://original-phrase-heroku4.herokuapp.com/category?category={{$category['id']}}" class="btn btn-light my-2">
 
                 <span>{{$category['name']}}</span>
             </a>
