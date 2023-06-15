@@ -60,18 +60,18 @@
     </div> 
 
     <div class="row">
-        <div class="col-md-6 text-center px-0 know-md">
+        <div class="col-md-6 text-center px-0">
             <a href="javascript:;" style="text-decoration:none;"onclick="Display_JS('Known')" id="Known">
                 <!-- <div style="margin-left:10em;padding:5em; border:1px solid #ccc;"> -->
-                <div style="padding:5em; border:1px solid #ccc;">
+                <div class="know-md" style="padding:5em; border:1px solid #ccc;">
                     わかる
                 </div>
             </a>
         </div>
-        <div class="col-md-6 text-center px-0 unknow-md">
+        <div class="col-md-6 text-center px-0">
             <a href="javascript:;"  style="text-decoration:none;" onclick="Display_JS('UnKnown')" id="UnKnown">
-            <!-- <div style="margin-right:10em;padding:5em; border:1px solid #ccc;"> -->
-            <div style="padding:5em; border:1px solid #ccc;">
+            <div class="unknow-md" style="padding:5em; border:1px solid #ccc;">
+            <!-- <div style="padding:5em; border:1px solid #ccc;"> -->
                 わからない
             </div>
             </a>

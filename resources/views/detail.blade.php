@@ -58,11 +58,11 @@
                 </div>
 
 
-                <div class="row mt-5 align-items-center">
-                    <div class="col-md-2">
+                <div class="row mt-5">
+                    <div class="col-4 col-md-2">
                         <a href="../edit/{{$edit_phrase[0]['id']}}" class="btn btn-light btn-lg">編集</a>
                     </div>
-                    <div class="col-md-10 d-flex justify-content-end align-items-center">
+                    <div class="col-8 col-md-10 d-flex justify-content-end ">
                         <a href="../" class="btn btn-light mx-3" style="font-size:20px">戻る</a>
                         <form action="{{route('destroy')}}" method="post" class="mb-0">
                             @csrf

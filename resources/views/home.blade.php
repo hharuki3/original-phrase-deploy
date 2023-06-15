@@ -51,14 +51,14 @@
 
 
     @foreach($phrases as $phrase)
-    <div class="col-md-8 pb-3 ps-5 h5">
+    <div class="col-md-8 space-md pb-1 text-center text-md-start h5">
         <div>
             <th scope="row" style="display:inline-flex">{{$phrase['japanese']}}</th>
         </div>
             <th scope="row" style="display:inline-flex">{{$phrase['phrase']}}</th>  
     </div>
 
-    <div class="col-md-4 text-left">
+    <div class="col-md-4 pb-5 text-center text-md-left">
         <a href="detail/{{$phrase['id']}}" class="btn btn-light mx-1">詳細</a>
         <a href="edit/{{$phrase['id']}}" class="btn btn-light mx-1">編集</a>
         <div style="display:inline-flex">

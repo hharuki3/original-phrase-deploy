@@ -86,7 +86,7 @@
                         </div>
                         <div class="card-body">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-2 d-flex flex-md-column justify-content-around">
                                 <div>
                                     <a href="/" class="btn btn-light my-2">
                                         <img width="30" src="{{asset('img/homes.png')}}" alt="">

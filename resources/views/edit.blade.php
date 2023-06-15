@@ -85,10 +85,10 @@
 
                         
                         <div class="row mt-5">
-                            <div class="col-md-2 mx-4">
+                            <div class="col-4 col-md-2">
                                 <button class="btn btn-light btn-lg">更新</button>
                             </div>
-                            <div class="col-md-9 d-flex justify-content-end">
+                            <div class="col-8 col-md-10 d-flex justify-content-end">
                                 <a href="../" class="btn btn-light mx-3" style="font-size:20px">戻る</a>
                                 <input type="submit"  class="btn btn-light btn-lg" value="削除" form="delete"  onclick="deleteHandle(event);">
                             </div>

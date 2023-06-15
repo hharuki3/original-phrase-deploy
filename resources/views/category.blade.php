@@ -7,7 +7,7 @@
 
 @section('item')
 <div class="row">   
-    <div class="col-md-2">
+    <div class="col-md-2 d-flex flex-md-column justify-content-around">
         <div>
             <a href="/" class="btn btn-light my-2">
                 <img width="30" src="{{asset('img/homes.png')}}" alt="">
@@ -58,7 +58,7 @@
 
 <div class="row mt-3">
     @foreach($phrases as $phrase)
-        <div class="col-md-8 pb-3 ps-5 h5">
+        <div class="col-md-8 space-md pb-1 text-center text-md-start h5">
             <div>
                 <th scope="row" style="display:inline-flex">{{$phrase['japanese']}}</th>
             </div>
@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <div class="col-md-4 text-left">
+        <div class="col-md-4 pb-5 text-center text-md-left">
             <a href="detail/{{$phrase['id']}}" class="btn btn-light">詳細</a>
             <a href="edit/{{$phrase['id']}}" class="btn btn-light">編集</a>
             <div style="display:inline-flex">
