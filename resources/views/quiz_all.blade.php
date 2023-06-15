@@ -7,15 +7,15 @@
 もし全ての問題が出力されたら、終了の表示をさせる-->
 
 <div class="card-header">
-    <div class="row h5 my-1">
-        <div class="col-md-4 text-start">
+    <div class="row h5 my-1 d-flex">
+        <div class="col-md-4 col-4 text-start ">
             <a href="/home" style="text-decoration:none;">ホーム</a>
             <!-- <h5 style="display:inline;" id="list"><a href="/home">一覧へ</a></h5> -->
         </div>
-        <div class="col-md-4 text-center">
+        <div class="col-md-4 col-4 text-center">
             すべて出題
         </div>
-        <div class="col-md-3 text-end px-0">
+        <div class="col-md-3 col-2 text-end px-0">
             <form method="post" action="{{route('update_checklist')}}"  id="checklist">
                 @csrf
                 <div type="hidden" name="agree" id="agree" value="checked" onchange="checkForm(this.form)"></div>
@@ -26,7 +26,7 @@
                 <input type="hidden" name="checklist" id="checklist_check">
             </form>
         </div>
-        <div class="col-md-1 text-end">
+        <div class="col-md-1 col-2 text-end">
             <a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('answer')" id = "answer">答え</a>
         </div>
     </div>
@@ -60,16 +60,18 @@
     </div> 
 
     <div class="row">
-        <div class="col-md-6 text-center px-0">
+        <div class="col-md-6 text-center px-0 know-md">
             <a href="javascript:;" style="text-decoration:none;"onclick="Display_JS('Known')" id="Known">
-                <div style="margin-left:10em;padding:5em; border:1px solid #ccc;">
+                <!-- <div style="margin-left:10em;padding:5em; border:1px solid #ccc;"> -->
+                <div style="padding:5em; border:1px solid #ccc;">
                     わかる
                 </div>
             </a>
         </div>
-        <div class="col-md-6 text-center px-0">
+        <div class="col-md-6 text-center px-0 unknow-md">
             <a href="javascript:;"  style="text-decoration:none;" onclick="Display_JS('UnKnown')" id="UnKnown">
-            <div style="margin-right:10em;padding:5em; border:1px solid #ccc;">
+            <!-- <div style="margin-right:10em;padding:5em; border:1px solid #ccc;"> -->
+            <div style="padding:5em; border:1px solid #ccc;">
                 わからない
             </div>
             </a>

@@ -12,7 +12,7 @@
 @section('item')
 
 
-<div class="mx-2">
+<div class="mx-2 ">
     <div>
         <a href="{{route('category')}}" class="btn btn-light my-2">
             <img width="30" src="{{asset('img/category.png')}}" alt="">

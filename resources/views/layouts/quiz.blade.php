@@ -79,14 +79,14 @@
         
         <main class="py-4">
             <div class="row">
-                <div class="col-md-3 mx-5">
+                <div class="col-md-3 col-12">
                     <div class="card h5">
                         <div class="card-header my-1">
                             復習テスト
                         </div>
                         <div class="card-body">
                         <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-2 d-flex flex-md-column justify-content-around">
                                 <div>
                                     <a href="/" class="btn btn-light my-2">
                                         <img width="30" src="{{asset('img/homes.png')}}" alt="">
@@ -134,7 +134,7 @@
                 </div>
                 
                 
-                <div class="col-md-7">
+                <div class="col-md-7 col-12">
                     <div class="card">
                             @yield('content') 
                             @yield('javascript')

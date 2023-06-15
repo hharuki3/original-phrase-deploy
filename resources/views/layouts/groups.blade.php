@@ -79,7 +79,7 @@
         
         <main class="py-4">
             <div class="row">
-                <div class="col-md-3 mx-5">
+                <div class="col-md-3">
                     <div class="card h5">
                         <div class="card-header my-1">
                             グループ
