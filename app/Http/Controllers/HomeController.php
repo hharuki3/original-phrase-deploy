@@ -14,6 +14,7 @@ use App\Models\Phrase;
 use App\Models\PhraseCategory;
 use App\Models\Invite;
 use App\Mail\Invitation;
+use Illuminate\Validation\Rule;
 
 //Inviteを追加
 
@@ -58,7 +59,9 @@ class HomeController extends Controller
             'japanese' => 'required',
             'phrase' => 'required',
             'memo' => 'required',
-            'new_category' => 'unique:categories,name',
+            'new_category' => [Rule::unique('categories', 'name')
+                ->whereNull('deleted_at')
+                ->where('user_id', '=', \Auth::id())]
         ]);
 
         DB::transaction(function() use($posts){
@@ -114,8 +117,9 @@ class HomeController extends Controller
             'japanese' => 'required',
             'phrase' => 'required',
             'memo' => 'required',
-            'new_category' => 'unique:categories,name,NULL,id,deleted_at,NULL'
-
+            'new_category' => [Rule::unique('categories', 'name')
+                ->whereNull('deleted_at')
+                ->where('user_id', '=', \Auth::id())]
         ]);
 
         DB::transaction(function() use($posts){
@@ -372,7 +376,7 @@ class HomeController extends Controller
         $token = bin2hex(random_bytes(32)); // ランダムなトークンの生成
 
         //localhost用URL
-        // $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
+        // $url = 'http://lofcalhost:8888/login?token=' . $token; // 招待URLの作成
 
         //heroku用URL
         $url = 'https://original-phrase-heroku4.herokuapp.com/login?token=' . $token; // 招待URLの作成
