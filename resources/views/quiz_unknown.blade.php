@@ -34,14 +34,8 @@
 
 
 <div class="card-body text-center h5">
-    <div class="row d-flex">
-        <div class="col-md-6 text-center px-0">
-            <div id="again"></div>
-        </div>
-        <div class="col-md-6 text-center px-0">
-            <div id="UnKnownAgain"></div>
-        </div>
-    </div>
+    <div id="again"></div>
+    <div id="UnKnownAgain"></div>
     <div>
         <div class="my-5" id="japanese">
             <p scope="row" style="display:inline-flex" class="japanese">{{$retry_phrases[$retry_randoms[0]]['japanese']}}</p>
@@ -135,7 +129,7 @@
                     const UnKnownSubmit = document.createElement('input');
                     UnKnownSubmit.type = 'submit';
                     UnKnownSubmit.value = '分からない問題のみ出題';
-                    UnKnownSubmit.className = 'btn btn-primary unknow-md';
+                    UnKnownSubmit.className = 'btn btn-primary';
                     UnKnownSubmit.style = "  padding: 1rem 2rem;margin-top:3rem; border:1px solid #ccc;"
                     UnKnownSubmit.style.fontSize = '1rem';
                     const csrfInput = document.createElement('input');
