@@ -60,8 +60,8 @@ class HomeController extends Controller
             'phrase' => 'required',
             'memo' => 'required',
             'new_category' => [Rule::unique('categories', 'name')
-                ->whereNull('deleted_at')
-                ->where('user_id', '=', \Auth::id())]
+                ->whereNull('deleted_at')]
+                // ->where('user_id', '=', \Auth::id())]
         ]);
 
         DB::transaction(function() use($posts){
@@ -111,8 +111,8 @@ class HomeController extends Controller
             'phrase' => 'required',
             'memo' => 'required',
             'new_category' => [Rule::unique('categories', 'name')
-                ->whereNull('deleted_at')
-                ->where('user_id', '=', \Auth::id())]
+                ->whereNull('deleted_at')]
+                // ->where('user_id', '=', \Auth::id())]
         ]);
 
         DB::transaction(function() use($posts){
