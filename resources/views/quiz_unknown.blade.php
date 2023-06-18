@@ -34,8 +34,14 @@
 
 
 <div class="card-body text-center h5">
-    <div id="again"></div>
-    <div id="UnKnownAgain"></div>
+    <div class="row d-flex">
+        <div class="col-md-6 text-center px-0">
+            <div id="again"></div>
+        </div>
+        <div class="col-md-6 text-center px-0">
+            <div id="UnKnownAgain"></div>
+        </div>
+    </div>
     <div>
         <div class="my-5" id="japanese">
             <p scope="row" style="display:inline-flex" class="japanese">{{$retry_phrases[$retry_randoms[0]]['japanese']}}</p>
@@ -51,9 +57,7 @@
 
     <div class="row px-0 my-0">
         <div class="col-md-10 text-end" style="margin-right:10em">
-            <a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next">
-                ▶️▶️
-            </a>
+            <a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next"></a>
         </div>
     </div> 
 
@@ -83,7 +87,7 @@
     <script>
         // localStorageからデータを取得し、JSON形式の文字列から配列に変換
         // var retry_UnKnownQuestionIds = JSON.parse(localStorage.getItem('UnKnownQuestionIds'));
-        // console.log(retry_UnKnownQuestionIds);
+
         const param = @json($retry_randoms);
         let num = 0;
         let JSPhrases = @json($retry_phrases);
@@ -117,7 +121,6 @@
                 
                 
                 if(UnKnownQuestionIds.length > 0){
-                    console.log(UnKnownQuestionIds.length);
                     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                     const UnKnownform = document.createElement('form');
                     UnKnownform.method = 'POST';
@@ -128,13 +131,12 @@
                     UnKnownInput.type = 'hidden';
                     UnKnownInput.name = 'retry_phrases[]';
                     UnKnownInput.value = JSON.stringify(UnKnownQuestionIds);
-                    console.log(UnKnownQuestionIds);
-                    console.log(UnKnownInput.value);
 
                     const UnKnownSubmit = document.createElement('input');
                     UnKnownSubmit.type = 'submit';
                     UnKnownSubmit.value = '分からない問題のみ出題';
-                    UnKnownSubmit.className = 'btn btn-primary my-5';
+                    UnKnownSubmit.className = 'btn btn-primary unknow-md';
+                    UnKnownSubmit.style = "  padding: 1rem 2rem;margin-top:3rem; border:1px solid #ccc;"
                     UnKnownSubmit.style.fontSize = '1rem';
                     const csrfInput = document.createElement('input');
                     csrfInput.type = 'hidden';
@@ -152,7 +154,6 @@
                     button.className = "btn btn-primary my-5"
                     button.style.fontSize = "1rem"
                     button.addEventListener('click', function() {
-                        console.log('分からないボタンは押されていない');
                         window.location.href = 'home';
                     });
                     again.appendChild(button);
@@ -164,13 +165,14 @@
             Eelements.forEach(element => element.style.display = 'none');
             Melements.forEach(element => element.style.display = 'none');
             document.getElementById("agree").innerHTML = '';
+            document.getElementById("next").innerHTML = '';
+
 
         });
 
         function Display_JS(quiz){
             if(quiz == "answer" || quiz == "Known" || quiz == "UnKnown"){
 
-                console.log(param[num]);
                 //JSPhrases[][]の最初の[]はフレーズの数を表している。
                 //一方、UnKnownQuestionIdsはDBに登録されているフレーズのIDを表している。
 
@@ -187,6 +189,11 @@
                 document.getElementById("phrase").innerHTML = `<p>${JSPhrases[param[num]]['phrase']}</p>`;
                 document.getElementById("memo").innerHTML = `<p>${JSPhrases[param[num]]['memo']}</p>`;
 
+                //「わかる」「わからない」ボタンをクリックした時に次へボタンを表示
+                if(quiz =="Known" || quiz =="UnKnown"){
+                    document.getElementById("next").innerHTML = `<a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next">▶️▶️</a>`
+                }
+
                 //「わからない」ボタンがクリックされた時のイベントハンドラ
                 if(quiz == "UnKnown"){
                     let currentQuestionId = `${JSPhrases[param[num]]['id']}`;
@@ -194,9 +201,7 @@
                     if(!UnKnownQuestionIds.includes(currentQuestionId)){
                         UnKnownQuestionIds.push(currentQuestionId);
                     }
-
                     localStorage.setItem('UnKnownQuestionIds', JSON.stringify(UnKnownQuestionIds));
-                    console.log(UnKnownQuestionIds);
                 };
             };      
         };
@@ -225,6 +230,3 @@
     
     </script>
 @endsection
-
-
-

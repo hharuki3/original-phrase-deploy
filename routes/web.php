@@ -42,7 +42,6 @@ Route::post('/result', [HomeController::class, 'result'])->name('result');
 
 Route::get('/category', [HomeController::class, 'category'])->name('category');
 Route::get('/group', [HomeController::class, 'group'])->name('group');
-Route::post('/join', [HomeController::class, 'join'])->name('join');
 
 // グループユーザーの投稿を閲覧
 Route::get('/friends_phrases/{id}', [HomeController::class, 'friends_phrases'])->name('friends_phrases');

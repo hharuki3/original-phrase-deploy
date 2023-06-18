@@ -116,10 +116,10 @@
                                         <div class="card-body">
                                                 <p>カテゴリーから出題</p>
                                                 @foreach($categories as $category)
-                                                    <div class="text-center form-group" id="category_id">
+                                                    <div class="text-start form-group" id="category_id">
                                                         <!-- herokuにデプロイする場合は、https通信となるようfull pathを指定。groupsテーブルも同様。# -->
                                                         <!-- <a href="/category/?category=" class="btn btn-light my-2"> -->
-                                                        <a href="/quiz_category/?category={{$category['id']}}" class="btn btn-light my-2">
+                                                        <a href="https://original-phrase-heroku4.herokuapp.com/quiz_category/?category={{$category['id']}}" class="btn btn-light my-2">
                                                             <span>{{$category['name']}}</span>
                                                         </a>
                                                     </div>

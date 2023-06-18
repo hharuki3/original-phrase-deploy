@@ -34,8 +34,15 @@
 
 
 <div class="card-body text-center h5">
-    <div id="again"></div>
-    <div id="UnKnownAgain"></div>
+    <div class="row d-flex">
+        <div class="col-md-6 text-center px-0">
+            <div id="again"></div>
+        </div>
+        <div class="col-md-6 text-center px-0">
+            <div id="UnKnownAgain"></div>
+        </div>
+    </div>
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <div>
@@ -53,9 +60,7 @@
 
     <div class="row px-0 my-0">
         <div class="col-md-10 text-end" style="margin-right:10em">
-            <a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next">
-                ▶️▶️
-            </a>
+            <a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next"></a>
         </div>
     </div> 
 
@@ -117,7 +122,8 @@
                 document.getElementById("next").innerHTML = '';
                 
                 button.textContent = 'もう一度';
-                button.className = "btn btn-primary my-5"
+                button.className = "btn btn-primary know-md"
+                button.style = "padding:1rem 2rem;margin-top:3rem; border:1px solid #ccc;"
                 button.style.fontSize = "1rem"
                 button.addEventListener('click', function() {
                 window.location.href = 'quiz_all';
@@ -137,14 +143,12 @@
                     UnKnownInput.type = 'hidden';
                     UnKnownInput.name = 'retry_phrases[]';
                     UnKnownInput.value = JSON.stringify(UnKnownQuestionIds);
-                    console.log(UnKnownQuestionIds);
-                    console.log(UnKnownInput.value);
-
                     
                     const UnKnownSubmit = document.createElement('input');
                     UnKnownSubmit.type = 'submit';
                     UnKnownSubmit.value = '分からない問題のみ出題';
-                    UnKnownSubmit.className = 'btn btn-primary my-5';
+                    UnKnownSubmit.className = 'btn btn-primary unknow-md';
+                    UnKnownSubmit.style = "  padding: 1rem 2rem;margin-top:3rem; border:1px solid #ccc;"
                     UnKnownSubmit.style.fontSize = '1rem';
                     const csrfInput = document.createElement('input');
                     csrfInput.type = 'hidden';
@@ -155,25 +159,15 @@
                     UnKnownform.appendChild(UnKnownInput);
                     UnKnownform.appendChild(UnKnownSubmit);
                     UnKnownAgain.appendChild(UnKnownform);
-                    
-                
-                    // UnKnownbutton.textContent = '分からない問題のみ出題';
-                    // UnKnownbutton.className = 'btn btn-primary my-5';
-                    // UnKnownbutton.style.fontSize = "1rem"
-                    // UnKnownbutton.addEventListener('click', function() {
-                    // window.location.href = 'quiz_unknown';
-                    // });
-                    console.log('分からないボタンが一度は押された');
-                    // UnKnownAgain.appendChild(UnKnownbutton);
-
                 }else{
-                    console.log('分からないボタンは押されていない');
                 }
                 // document.body.appendChild(button); 
             }
             Eelements.forEach(element => element.style.display = 'none');
             Melements.forEach(element => element.style.display = 'none');
             document.getElementById("agree").innerHTML = '';
+            document.getElementById("next").innerHTML = '';
+
 
         });
 
@@ -193,6 +187,10 @@
                 document.getElementById("phrase").innerHTML = `<p>${JSPhrases[param[num]]['phrase']}</p>`;
                 document.getElementById("memo").innerHTML = `<p>${JSPhrases[param[num]]['memo']}</p>`;
 
+                if(quiz =="Known" || quiz =="UnKnown"){
+                    document.getElementById("next").innerHTML = `<a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next">▶️▶️</a>`
+                }
+
                 //「わからない」ボタンがクリックされた時のイベントハンドラ
                 if(quiz == "UnKnown"){
                     let currentQuestionId = `${JSPhrases[param[num]]['id']}`;
@@ -202,7 +200,6 @@
                     }
 
                     localStorage.setItem('UnKnownQuestionIds', JSON.stringify(UnKnownQuestionIds));
-                    console.log(UnKnownQuestionIds);
                 };
             };      
         };
@@ -228,50 +225,7 @@
             return false;
 
         }
-    
-        //「わからない」ボタンがクリックされた時のイベントハンドラ
-        // document.getElementById('UnKnown').addEventListener('click', function() {
-        //     let currentQuestionId = `${JSPhrases[param[num]]['id']}`;
-        //     UnKnownQuestionIds.push(currentQuestionId);
-        //     console.log(UnKnownQuestionIds);
-        // });
-
-        //「間違えた問題だけ出題」ボタンがクリックされた時のイベントハンドラ
-        // document.getElementById('retryUnKnown').addEventListener('click', function() {
-        //     UnKnownQuestionIds.foreach(id => {
-                
-        //     })
-        // })
-
-
-
-
 
     </script>
 @endsection
-
-<!-- チェックボックスを押すと、phraseのテーブルにあるis_existカラムにチェックがつく。
-    んで、チェックがついたphraseだけ出題させる。
-    テーブルに登録していく必要があるということは、postでcontroller側に値を飛ばして、そこでカラムに追加する作業が必要になる。
-    postで飛ばすということは、「次」ボタンを押したら画面遷移しなければならないということになる。
-    そうなるとせっかくjsで画面遷移なく次の問題に移行できたのに意味がなくなる。  
-    可能ならカラムを使わずに、いや値を保持するにはデータベースに値を登録しなければならない？
-    そうなると、postで送信が条件になるから、コードを書き換える必要性が出てくる。面倒臭い -->
-
-
-
-<!-- jsの読み込みはyieldでcontentを先に読み込んだとしても
-    section('javascript')はcontentの後に記述した方が良い。 -->
-
-
-<!-- ElementCountの名前を適切な名前に変更
-    チェックリスト機能はphraseテーブルにis_set?, is_exist?のカラムを設けて、true or falseでチェックしてるかどうかを判断
-    後もう一つくらいあった気がするけどなんだったかな。
-    `〇〇` この点々のなかで${}で記述したJSコードを有効にできる。
-    laravelのタブを自動調整してくれる拡張機能を入れる
-     -->
-
-
-
-
 

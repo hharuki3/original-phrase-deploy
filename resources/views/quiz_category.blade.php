@@ -35,8 +35,14 @@
 
 <div class="card-body text-center h5">
     @if(isset($phrases[0]['id']))
-        <div id="again"></div>
-        <div id="UnKnownAgain"></div>
+        <div class="row d-flex">
+            <div class="col-md-6 text-center px-0">
+                <div id="again"></div>
+            </div>
+            <div class="col-md-6 text-center px-0">
+                <div id="UnKnownAgain"></div>
+            </div>
+        </div>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         
         <div>
@@ -55,9 +61,7 @@
 
         <div class="row px-0 my-0">
             <div class="col-md-10 text-end" style="margin-right:10em">
-                <a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next">
-                    ▶️▶️
-                </a>
+                <a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next"></a>
             </div>
         </div> 
 
@@ -92,7 +96,6 @@
 
         const param = @json($randoms);
         let num = 0;
-        //console.log(param);
         let JSPhrases = @json($phrases);
         let query_category = @json($query_category);
         const next = document.querySelector('#next');
@@ -123,7 +126,8 @@
                 document.getElementById("next").innerHTML = '';
                 
                 button.textContent = 'もう一度';
-                button.className = "btn btn-primary my-5"
+                button.className = "btn btn-primary know-md"
+                button.style = "  padding: 1rem 2rem;margin-top:3rem; border:1px solid #ccc;"
                 button.style.fontSize = "1rem"
                 button.addEventListener('click', function() {
                     // window.location.href = 'quiz_category?category=' + query_category;
@@ -145,14 +149,13 @@
                     UnKnownInput.type = 'hidden';
                     UnKnownInput.name = 'retry_phrases[]';
                     UnKnownInput.value = JSON.stringify(UnKnownQuestionIds);
-                    console.log(UnKnownQuestionIds);
-                    console.log(UnKnownInput.value);
 
                     
                     const UnKnownSubmit = document.createElement('input');
                     UnKnownSubmit.type = 'submit';
                     UnKnownSubmit.value = '分からない問題のみ出題';
-                    UnKnownSubmit.className = 'btn btn-primary my-5';
+                    UnKnownSubmit.className = 'btn btn-primary unknow-md';
+                    UnKnownSubmit.style = "  padding: 1rem 2rem;margin-top:3rem; border:1px solid #ccc;"
                     UnKnownSubmit.style.fontSize = '1rem';
                     const csrfInput = document.createElement('input');
                     csrfInput.type = 'hidden';
@@ -163,25 +166,16 @@
                     UnKnownform.appendChild(UnKnownInput);
                     UnKnownform.appendChild(UnKnownSubmit);
                     UnKnownAgain.appendChild(UnKnownform);
-                    
-                
-                    // UnKnownbutton.textContent = '分からない問題のみ出題';
-                    // UnKnownbutton.className = 'btn btn-primary my-5';
-                    // UnKnownbutton.style.fontSize = "1rem"
-                    // UnKnownbutton.addEventListener('click', function() {
-                    // window.location.href = 'quiz_unknown';
-                    // });
-                    console.log('分からないボタンが一度は押された');
-                    // UnKnownAgain.appendChild(UnKnownbutton);
 
                 }else{
-                    console.log('分からないボタンは押されていない');
                 }
                 // document.body.appendChild(button); 
             }
             Eelements.forEach(element => element.style.display = 'none');
             Melements.forEach(element => element.style.display = 'none');
             document.getElementById("agree").innerHTML = '';
+            document.getElementById("next").innerHTML = '';
+
 
         });
 
@@ -193,11 +187,9 @@
             if(quiz == "answer" || quiz == "Known" || quiz == "UnKnown"){
 
                 const checklist = `${JSPhrases[param[num]]['checklist']}`; 
-                console.log(checklist);
                 if(checklist =="checked"){
                     //すでにcheckされている状態にしておく。
                     document.getElementById("agree").innerHTML = '<input type="checkbox" name="agree" id="agree" value="checked"  onchange="checkForm(this.form)" checked>'
-                    console.log("チェックされているよ。");
                 }
                 else{
                     document.getElementById("agree").innerHTML = '<input type="checkbox" name="agree" id="agree" value="checked"  onchange="checkForm(this.form)">'
@@ -207,6 +199,10 @@
                 document.getElementById("phrase").innerHTML = `<p>${JSPhrases[param[num]]['phrase']}</p>`;
                 document.getElementById("memo").innerHTML = `<p>${JSPhrases[param[num]]['memo']}</p>`;
 
+                if(quiz =="Known" || quiz =="UnKnown"){
+                    document.getElementById("next").innerHTML = `<a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next">▶️▶️</a>`
+                }
+                
                 //「わからない」ボタンがクリックされた時のイベントハンドラ
                 if(quiz == "UnKnown"){
                     let currentQuestionId = `${JSPhrases[param[num]]['id']}`;
@@ -216,7 +212,6 @@
                     }
 
                     localStorage.setItem('UnKnownQuestionIds', JSON.stringify(UnKnownQuestionIds));
-                    console.log(UnKnownQuestionIds);
                 };
 
             };      
@@ -245,10 +240,3 @@
         }
     </script>
 @endsection
-
-
-
-
-
-
-

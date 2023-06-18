@@ -86,11 +86,8 @@ class HomeController extends Controller
         return redirect(route('home'));
     }
 
-
     public function edit($id)
     {
-        // dd($id);
-
         $edit_phrase = Phrase::select('phrases.*', 'categories.id as category_id')
             ->leftJoin('phrase_categories', 'phrase_categories.phrase_id', '=', 'phrases.id')
             ->leftJoin('categories', 'phrase_categories.category_id', '=', 'categories.id')
@@ -98,7 +95,6 @@ class HomeController extends Controller
             ->where('phrases.id', '=', $id)
             ->whereNull('phrases.deleted_at')
             ->get(); 
-            // dd($edit_phrase);
         $include_categories = [];
         foreach($edit_phrase as $phrase){
             array_push($include_categories, $phrase['category_id']);
@@ -107,12 +103,9 @@ class HomeController extends Controller
         return view('edit', compact('edit_phrase', 'include_categories'));
     }
 
-
     public function update(Request $request)
     {
         $posts = $request->all();
-        // dd($posts);
-        //カテゴリーを削除したら、以下のバリデーションは無効とする。
         $request->validate([
             'japanese' => 'required',
             'phrase' => 'required',
@@ -139,15 +132,11 @@ class HomeController extends Controller
                     ->whereNull('deleted_at')
                     ->exists();
             }
-                // dd($category_exists);
             //emptyは0も空扱いになるため、厳密に書くのであれば「|| $posts['new_category']===0」も追加
             if(isset($category_exists) && isset($posts['new_category']) ){
                 $category_id = Category::insertGetId(['name' => $posts['new_category'], 'user_id' => \Auth::id()]);
                 PhraseCategory::insert(['phrase_id' => $posts['phrase_id'], 'category_id' => $category_id]);
             }
-
-
-
         });
         return redirect(route('home'));
     }
@@ -155,7 +144,6 @@ class HomeController extends Controller
     public function update_checklist(Request $request)
     {
         $posts = $request->all();
-        // dd($posts);
         DB::transaction(function() use($posts){
             Phrase::where('id', '=', $posts['phrase_id'])
                 ->update(['japanese' => $posts['japanese'], 'phrase' => $posts['phrase'], 
@@ -163,15 +151,9 @@ class HomeController extends Controller
             PhraseCategory::where('phrase_id', '=', $posts['phrase_id'])->delete();
 
         });
-
-
         $redirectUrl = session()->get('redirect_url',route('quiz_all'));
         return redirect($redirectUrl);
-
-
-
     }
-
 
     public function detail($id)
     {
@@ -193,9 +175,7 @@ class HomeController extends Controller
 
     public function destroy(Request $request)
     {
-
         $posts = $request->all();
-        // dd($posts);
         Phrase::where('id', $posts['phrase_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
         return redirect(route('home'));
     }
@@ -203,8 +183,6 @@ class HomeController extends Controller
     public function category_destroy(Request $request)
     {
         $posts = $request->all();
-        // dd($posts);
-        // Category::where('id', '=', $posts['category_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
         Category::where('id', $posts['category_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
         return back();
     }
@@ -220,7 +198,6 @@ class HomeController extends Controller
 
     public function quiz_all()
     {
-            // dd($edit_phrase);
         return view('quiz_all');
     }
 
@@ -228,12 +205,6 @@ class HomeController extends Controller
     {
         $posts = $request->input('retry_phrases');
         $posts = json_decode($posts[0], true);  // 一つ目の要素（JSON文字列）を再度デコード
-
-
-        //ここが違う。jsでセッションに保存したidのフレーズをDBから取得する必要がある。
-        //where('id', '=', ここにセッションに保存した配列)
-        // $posts = $request->all();
-        // dd($posts);
         $retry_phrases = Phrase::select('phrases.*')
             ->whereIn('id', $posts)
             ->whereNull('deleted_at')
@@ -264,7 +235,6 @@ class HomeController extends Controller
 
     }
 
-
     public function quiz_category()
     {
         return view('quiz_category');
@@ -273,7 +243,6 @@ class HomeController extends Controller
     public function result(Request $request)
     {
         $posts = $request->all();
-        // dd($posts);
         return redirect(route('quiz_all'));
     }
 
@@ -286,12 +255,9 @@ class HomeController extends Controller
         return view('category');
     }
 
-
-
     public function invite($id)
     {
         //$idはクエリパラメータのIDとgroupsテーブルのIDが一致したgroup_idを指す。
-        
         $group_id = UserGroup::select('user_groups.group_id')
             ->where('group_id', '=', $id)
             ->where('user_id', '=', \Auth::id())
@@ -307,13 +273,9 @@ class HomeController extends Controller
     public function new_invite(Request $request)
     {
         $posts = $request->all();
-        // dd($posts);
         $request->validate([
             'new_group' => 'required'
         ]);
-        
-        // $group_id = '';
-        // dd('new_invite');
         $new_group_id = Group::insertGetId(['name' => $posts['new_group']]);
         UserGroup::insert(['user_id' => \Auth::id(), 'group_id' => $new_group_id]);
 
@@ -326,31 +288,12 @@ class HomeController extends Controller
 
     }
 
-
     public function invitation_confirm(Request $request)
     {
-        //??get通信になっているらしい。どこで？ > バリデーションでリダイレクトする時
         $posts = $request->all();
-        // dd($posts);
-        // $request->validate([
-        //     'email' => 'required|email:filter,dns'
-        // ]);
-
         $request->validate([
             'email' => 'required|email:filter,dns'
         ]);
-
-        // $validator = Validator::make($request->all(),[
-        //     'email' => 'required|email:filter,dns'
-        // ]);
-
-        
-
-        // if($validator->fails()){
-        //     return redirect()->route('new_invite')->withInput($request->all())->withErrors($validator);
-        // }
-
-
         // $recipientName メール受信者の名前 / $recipientEmail メール受信者のメールアドレス / fromName メール送信者の名前
         $recipientName = User::where('email', $posts['email'])->first()->name;
         $recipientEmail = User::where('email', $posts['email'])->first()->email;
@@ -376,24 +319,19 @@ class HomeController extends Controller
         $token = bin2hex(random_bytes(32)); // ランダムなトークンの生成
 
         //localhost用URL
-        // $url = 'http://lofcalhost:8888/login?token=' . $token; // 招待URLの作成
+        // $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
 
         //heroku用URL
         $url = 'https://original-phrase-heroku4.herokuapp.com/login?token=' . $token; // 招待URLの作成
 
         // inviteテーブルに追加
-        //どこかでリダイレクトが行われている？？
         Invite::insert(['group_id' => $group_id, 'token' => $token]);
         Mail::to($recipientEmail)->send(new Invitation($recipientName, $url));
 
         //invitation.php経由のinvitation_confirm.phpへのアクセスとreturn view経由でのアクセスでどちらも変数を指定する必要がある。
-        // return view('invitation_confirm', compact('recipientName', 'url', 'fromName'));
         return redirect('/group')->with('success', 'メールを送信しました。');
-        
 
     }
-
-
 
     public function InvitedForm(string $token)
     {
@@ -409,22 +347,4 @@ class HomeController extends Controller
             'email' => $invite->email,
         ]);
     }
-
-    public function join(Request $request){
-        $posts = $request->all();
-        dd($posts);
-        
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 }
