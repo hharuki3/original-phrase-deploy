@@ -40,6 +40,7 @@
         <div class="col text-end" id="again"></div>
         <div class="col text-start" id="UnKnownAgain"></div>
     </div>
+    <div id="all_correct" style="margin: 0 20%;"></div>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -197,6 +198,16 @@
                     UnKnownform.appendChild(UnKnownInput);
                     UnKnownform.appendChild(UnKnownSubmit);
                     UnKnownAgain.appendChild(UnKnownform);
+
+                }else{
+
+                    button.textContent = '全ての問題が合格です。お疲れ様でした!';
+                    button.className = "btn btn-primary my-5 col-12";
+                    button.style.fontSize = "1rem";
+                    button.addEventListener('click', function() {
+                        window.location.href = 'home';
+                    });
+                    all_correct.appendChild(button);
 
                 }
                 // document.body.appendChild(button); 
