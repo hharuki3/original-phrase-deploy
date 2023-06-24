@@ -42,7 +42,7 @@
                                     <label for="japanese" class="col-form-label">日本語文</label>
                                 </div>
                                 <div class="row justify-content-center">
-                                    <input class="form-control text-center" style="width:50%;font-size:20px" type="text" name="japanese" placeholder="日本語文を追加" required>
+                                    <input class="form-control text-center" style="width:50%;font-size:20px" type="text" name="japanese" placeholder="日本語文を追加" >
                                 </div>
                             </div>
 
@@ -51,7 +51,7 @@
                                     <label for="english" class="col-form-label">英語文</label>
                                 </div>
                                 <div class="row justify-content-center">
-                                    <input class="form-control text-center" style="width:50%;font-size:20px" type="text" name="phrase" placeholder="フレーズを追加" required>
+                                    <input class="form-control text-center" style="width:50%;font-size:20px" type="text" name="phrase" placeholder="フレーズを追加" >
                                 </div>
                                 
                             </div> 
@@ -61,7 +61,7 @@
                                     <label for="memo" class="col-form-label">メモ</label>
                                 </div>
                                 <div class="row justify-content-center">
-                                    <textarea class="form-control text-center" style="font-size:20px" name="memo" rows="3" placeholder="一言メモ" required></textarea>
+                                    <textarea class="form-control text-center" style="font-size:20px" name="memo" rows="3" placeholder="一言メモ" ></textarea>
                                 </div>
                             </div>
                             
