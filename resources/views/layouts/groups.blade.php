@@ -130,25 +130,31 @@
                                         
                                     </div>
                                 </form>
-                                <p class="pt-3 text-center">参加しているグループ</p>
-
-                                @if (!$group_exists)
-                                <p>参加しているグループはありません</p>
-                                @else
-                                    @foreach($groups as $group)
-                                    <div class="text-center">
-                                        <a href="/group?group={{$group['id']}}" class="btn btn-light my-2">
-                                            <!-- heroku用URL -->
-                                        <!-- <a href="https://original-phrase-heroku4.herokuapp.com/group?group=" class="btn btn-light my-2"> -->
-                                            <span>{{$group['name']}}</span>
-                                        </a>
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <p class="pt-3 text-center">参加しているグループ</p>
+                                        @if (!$group_exists)
+                                        <p>参加しているグループはありません</p>
+                                        @else
+                                            @foreach($groups as $group)
+                                            <div class="text-center">
+                                                <a href="/group?group={{$group['id']}}" class="btn btn-light my-2">
+                                                    <!-- heroku用URL -->
+                                                <!-- <a href="https://original-phrase-heroku4.herokuapp.com/group?group=" class="btn btn-light my-2"> -->
+                                                    <span>{{$group['name']}}</span>
+                                                </a>
+                                            </div>
+                                            @endforeach
+                                        @endif
                                     </div>
-                                    @endforeach
-                                @endif
+                                </div>
                                 <!-- <a class="btn btn-block bg-white btn-outline-teal1 text-decoration-none text-teal1 mb-4"
                                     href="{{ route('home') }}">
                                     設定を編集
                                 </a> -->
+                                
+                                <button id="favorite" class="btn btn-light my-2 w-100 mt-4">お気に入り</button>
+
                                 
                             </div>
                         </div>

@@ -14,20 +14,43 @@
         @endif
 
         @if(!empty($group_user_phrases))
+
+        
+
         <div class="card-body">
             <div class="form-group form-control-lg my-3">
-                @foreach($group_user_phrases as $group_user_phrase)
+                @foreach($group_user_phrases as $key => $group_user_phrase)
+                    <div class="d-flex justify-content-center">
+                        <div class="text-center flex-grow-1">
+                            <p class="mt-4" style="font-size:20px" id="japanese-{{$key}}">{{$group_user_phrase['japanese']}}</p>
+                        </div>
+                        <!-- <p class="mt-4" style="font-size:20px">♡</p> -->
+
+                        <!-- <form action="{{route('group_favorite')}}" method="post">
+                            @csrf
+                            <input type="hidden" name="phrase_id" value="">
+                            <div id="favorite" value>
+
+                            </div>
+                            <div>
+                                <input type="checkbox" class="mt-4" name="favorite" value="{{$key}}">
+                            </div>
+                        </form> -->
+
+
+                        
+                    </div>
+
+
                     <div class="row justify-content-center">
-                        <p class="text-center mt-4" style="font-size:20px" >{{$group_user_phrase['japanese']}}</p>
+                        <p class="text-center" style="font-size:20px" id="phrase-{{$key}}">{{$group_user_phrase['phrase']}}</p>
                     </div>
                     <div class="row justify-content-center">
-                        <p class="text-center" style="font-size:20px" >{{$group_user_phrase['phrase']}}</p>
-                    </div>
-                    <div class="row justify-content-center">
-                        <p class="text-center" style="font-size:20px" >{{$group_user_phrase['memo']}}</p>
+                        <p class="text-center" style="font-size:20px" id="memo-{{$key}}">{{$group_user_phrase['memo']}}</p>
                     </div>
                     <div class="border-top">
                 @endforeach
+                <div id="display"></div>
             </div>
         </div>  
 
@@ -89,12 +112,13 @@
                                     $targetUrl = str_replace($baseUrl, '', $currentUrl);
                                 @endphp
                                 <!-- このページにphraseを表示させる or phraseページを作成し、そこに遷移させる -->
+                                <!-- userのクエリパラメータの値を用いて、AppServiceProvider.phpでデータベースから値を取得し、表示させる -->
                                 <a href="/group/?user={{ $user['id'] }}">投稿を見る</a>
                                 <!-- herou用URL -->
                                 <!-- <a href="https://original-phrase-heroku4.herokuapp.com/group?user=">投稿を見る</a> -->
                             </div>
 
-                        @elseif(!$query_group && !($query_user))
+                        @elseif(!$query_group && !$query_user)
                             <div class="text-start">
                                 <p class="card-text">所属しているグループを選択してください。</p>
                             </div>
@@ -102,6 +126,7 @@
                             <div class="text-start">
                                 <p class="card-text">投稿しているフレーズがありません。 </p>
                             </div>
+
                         @endif
                         @endforeach
                     </div>
@@ -111,5 +136,65 @@
     </div>
 </div>
 
+@endsection
+
+@section('javascript')
+<script>
+var groupDisplay = [];
+
+window.onload = function() {
+    var checkboxes = document.querySelectorAll('input[type=checkbox][name="favorite"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            var groupID = this.value;  // this should be a unique ID for each group
+            var groupInfo = {
+                'japanese': document.getElementById('japanese-' + groupID).innerText,
+                'phrase': document.getElementById('phrase-' + groupID).innerText,
+                'memo': document.getElementById('memo-' + groupID).innerText,
+            };
+            
+            if(this.checked) {
+                groupDisplay.push(groupInfo);
+            } else {
+                var index = groupDisplay.findIndex(function(group) {
+                    return group.japanese === groupInfo.japanese &&
+                           group.phrase === groupInfo.phrase &&
+                           group.memo === groupInfo.memo;
+                });
+                
+                if (index !== -1) {
+                    groupDisplay.splice(index, 1);
+                }
+            }
+
+            // var displayElement = document.getElementById('display');
+            //     displayElement.innerHTML = groupDisplay.map(function(group) {
+            //         return `<p>${group.japanese}</p>
+            //                 <p>${group.phrase}</p>
+            //                 <p>${group.memo}</p>`;
+            //     }).join('');
+        });
+    });
+}
+
+
+var favoriteDisplay = document.getElementById('favorite');
+
+
+favoriteDisplay.addEventListener('click', () => {
+    // お気に入りボタンをクリックした場合、チェックしたフレーズ等のみ表示
+    console.log('クリックされました。');
+    var displayElement = document.getElementById('display');
+        displayElement.innerHTML = groupDisplay.map(function(group) {
+            return `<p>${group.japanese}</p>
+                    <p>${group.phrase}</p>
+                    <p>${group.memo}</p>`;
+        }).join('');
+    
+});
+
+
+</script>
 
 @endsection
+
