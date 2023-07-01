@@ -3,6 +3,7 @@
 @section('content')
 
     <!-- route('store')と書くと、/storeと同義 -->
+
     <form action="{{route('store')}}" method="post">
         @csrf
         <div class="row">
@@ -16,7 +17,7 @@
                             </div>
                             <!-- リダイレクトすると入力欄がリセットされる。 -->
                             @error('new_category')
-                                <div style="color:red;">{{'※このカテゴリーはすでに存在しています。'}}</div>
+                                <div style="color:red;">{{$message}}</div>
                             @enderror
                             @foreach($categories as $category)
                             <div class="my-3 mt-4">
@@ -44,6 +45,9 @@
                                 <div class="row justify-content-center">
                                     <input class="form-control text-center" style="width:50%;font-size:20px" type="text" name="japanese" placeholder="日本語文を追加" >
                                 </div>
+                                @error('japanese')
+                                    <div style="color:red;">{{$message}}</div>
+                                @enderror
                             </div>
 
                             <div class="form-group text-center form-control-lg my-3">
@@ -53,6 +57,9 @@
                                 <div class="row justify-content-center">
                                     <input class="form-control text-center" style="width:50%;font-size:20px" type="text" name="phrase" placeholder="フレーズを追加" >
                                 </div>
+                                @error('phrase')
+                                    <div style="color:red;">{{$message}}</div>
+                                @enderror
                                 
                             </div> 
                             
@@ -63,6 +70,9 @@
                                 <div class="row justify-content-center">
                                     <textarea class="form-control text-center" style="font-size:20px" name="memo" rows="3" placeholder="一言メモ" ></textarea>
                                 </div>
+                                @error('memo')
+                                    <div style="color:red;">{{$message}}</div>
+                                @enderror
                             </div>
                             
                             <div class="row mt-5">

@@ -33,6 +33,7 @@
 
 <div class="card-body text-center h5">
 
+    <!-- 結果ページ -->
     <div style="display:inline-flex; position:relative; width:50%; height:50%;">
         <canvas id="mychart-pie" style="display:none;"></canvas>
     </div>
@@ -41,6 +42,7 @@
         <div class="col text-start" id="UnKnownAgain"></div>
     </div>
     <div id="all_correct" style="margin: 0 20%;"></div>
+
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -154,8 +156,6 @@
                 },
                 });
 
-
-
                 
                 button.textContent = 'もう一度';
                 button.className = "btn btn-primary"
@@ -179,8 +179,6 @@
                     UnKnownInput.type = 'hidden';
                     UnKnownInput.name = 'retry_phrases[]';
                     UnKnownInput.value = JSON.stringify(UnKnownQuestionIds);
-                    console.log(UnKnownQuestionIds);
-                    console.log(UnKnownInput.value);
 
                     
                     const UnKnownSubmit = document.createElement('input');
@@ -222,6 +220,7 @@
 
         function Display_JS(quiz){
             if(quiz == "answer" || quiz == "Known" || quiz == "UnKnown"){
+
                 const checklist = `${JSPhrases[param[num]]['checklist']}`; 
                 //チェックボックスの表示
                 if(checklist =="checked"){
@@ -237,7 +236,8 @@
                 document.getElementById("phrase").innerHTML = `<p>${JSPhrases[param[num]]['phrase']}</p>`;
                 document.getElementById("memo-card").style.display = "";
                 document.getElementById("memo-name").innerHTML = '<p>【メモ】</p>';
-                document.getElementById("memo").innerHTML = `<p>${JSPhrases[[num]]['memo']}</p>`;
+                document.getElementById("memo").innerHTML = `<p>${JSPhrases[param[num]]['memo']}</p>`;
+
                 
 
                 if(quiz == "answer"){

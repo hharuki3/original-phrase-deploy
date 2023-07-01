@@ -35,8 +35,18 @@
 
 <div class="card-body text-center h5">
     @if(isset($phrases[0]['id']))
-        <div id="again"></div>
-        <div id="UnKnownAgain"></div>   
+
+        <!-- 結果ページ -->
+        <div style="display:inline-flex; position:relative; width:50%; height:50%;">
+            <canvas id="mychart-pie" style="display:none;"></canvas>
+        </div>
+        <div class="row">
+            <div class="col text-end" id="again"></div>
+            <div class="col text-start" id="UnKnownAgain"></div>
+        </div>
+        <div id="all_correct" style="margin: 0 20%;"></div>
+
+
         <meta name="csrf-token" content="{{ csrf_token() }}">
         
         <div>
@@ -46,18 +56,22 @@
             <div class="my-5" id="phrase">
                 <p scope="row" style="display:inline-flex" class="english">{{$phrases[$randoms[0]]['phrase']}}</p>
             </div>
-            <div class="my-5" id="memo">
-                <p scope="row" style="display:inline-flex" class="memo">{{$phrases[$randoms[0]]['memo']}}</p>
+            <!-- 次へボタン -->
+            <div class="px-3 my-0 text-end" style="margin:10%;">
+                <a href="javascript:;"  style="text-decoration:none;" onclick="Display_JS('next')" id="next"></a>
+            </div> 
+
+            <div id="memo-card" style="display:none">
+                <div class="card shadow-sm card-body" style="margin:0 10%;">
+                    <div id="memo-name" class="text-start"></div>
+                    <div id="memo">
+                        <p scope="row" style="display:inline-flex" class="memo">{{$phrase_checked[$randoms_checked[0]]['memo']}}</p>
+                    </div>
+                </div>
             </div>
         </div>
     
 
-
-        <div class="row px-0 my-0">
-            <div class="col-md-10 text-end" style="margin-right:10em">
-                <a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next"></a>
-            </div>
-        </div> 
 
         <div class="row">
             <div class="col-md-6 text-center px-0">
@@ -95,14 +109,20 @@
         const next = document.querySelector('#next');
         //「わからない」フレーズのIDを格納する配列
         let UnKnownQuestionIds = [];
+        let KnownQuestionIds = [];
+
 
         next.addEventListener('click', () => {
             num = num + 1;
             if (num < param.length) {
                 document.getElementById("japanese").innerHTML = `<p>${JSPhrases[param[num]]['japanese']}</p>`;
                 document.getElementById("phrase").innerHTML = ``;
+                document.getElementById("memo-card").style.display = "none";
                 document.getElementById("memo").innerHTML = ``;
-                
+                document.getElementById("Known").style.display = "";
+                document.getElementById("UnKnown").style.display = "";
+                document.getElementById("answer").style.display = "";    
+
             } else {
                 const again = document.getElementById('again');
                 const button = document.createElement('button');
@@ -114,19 +134,36 @@
                 document.getElementById("answer").innerHTML = '';
                 document.getElementById("japanese").innerHTML = '';
                 document.getElementById("phrase").innerHTML = '';
+                document.getElementById("memo-card").style.display = 'none';
                 document.getElementById("memo").innerHTML = '';
+                document.getElementById("memo-name").innerHTML = '';
                 document.getElementById("Known").innerHTML = '';
                 document.getElementById("UnKnown").innerHTML = '';
                 document.getElementById("next").innerHTML = '';
+
+
+                document.getElementById("mychart-pie").style.display = "";
+                var ctx = document.getElementById('mychart-pie');
+                var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['わかる', 'わからない'],
+                    datasets: [{
+                    data: [KnownQuestionIds.length, UnKnownQuestionIds.length],
+                    backgroundColor: ['#f88','#48f'],
+                    weight: 100,
+                    }],
+                },
+                });
                 
                 button.textContent = 'もう一度';
                 button.className = "btn btn-primary"
                 button.style = "  padding: 1rem 2rem;margin-top:3rem; border:1px solid #ccc;"
                 button.style.fontSize = "1rem"
                 button.addEventListener('click', function() {
-                    // window.location.href = 'quiz_category?category=' + query_category;
+                    window.location.href = 'quiz_category?category=' + query_category;
                     //heroku用URL
-                    window.location.href = 'https://original-phrase-heroku4.herokuapp.com/quiz_category?category=' + query_category;
+                    // window.location.href = 'https://original-phrase-heroku4.herokuapp.com/quiz_category?category=' + query_category;
                 });
                 again.appendChild(button);
 
@@ -162,6 +199,15 @@
                     UnKnownAgain.appendChild(UnKnownform);
 
                 }else{
+
+                    button.textContent = '全ての問題が合格です。お疲れ様でした!';
+                    button.className = "btn btn-primary my-5 col-12";
+                    button.style.fontSize = "1rem";
+                    button.addEventListener('click', function() {
+                        window.location.href = 'home';
+                    });
+                    all_correct.appendChild(button);
+
                 }
                 // document.body.appendChild(button); 
             }
@@ -191,21 +237,43 @@
                 }
                 document.getElementById("japanese").innerHTML = `<p>${JSPhrases[param[num]]['japanese']}</p>`;
                 document.getElementById("phrase").innerHTML = `<p>${JSPhrases[param[num]]['phrase']}</p>`;
+                document.getElementById("memo-card").style.display = "";
+                document.getElementById("memo-name").innerHTML = '<p>【メモ】</p>';
                 document.getElementById("memo").innerHTML = `<p>${JSPhrases[param[num]]['memo']}</p>`;
+
+
+                if(quiz == "answer"){
+                    document.getElementById("memo-card").style.display = "none";
+
+                }
 
                 if(quiz =="Known" || quiz =="UnKnown"){
                     document.getElementById("next").innerHTML = `<a href="javascript:;" style="text-decoration:none;" onclick="Display_JS('next')" id="next">▶️▶️</a>`
+                    document.getElementById("Known").style.display = "none";
+                    document.getElementById("UnKnown").style.display = "none";
+                    document.getElementById("answer").style.display = "none";
                 }
                 
+                let currentQuestionId = `${JSPhrases[param[num]]['id']}`;
+
                 //「わからない」ボタンがクリックされた時のイベントハンドラ
                 if(quiz == "UnKnown"){
-                    let currentQuestionId = `${JSPhrases[param[num]]['id']}`;
                     //idの重複なし機能
                     if(!UnKnownQuestionIds.includes(currentQuestionId)){
                         UnKnownQuestionIds.push(currentQuestionId);
                     }
 
                     localStorage.setItem('UnKnownQuestionIds', JSON.stringify(UnKnownQuestionIds));
+                }
+                else if(quiz == "Known"){
+                    //idの重複なし機能
+                    if(!KnownQuestionIds.includes(currentQuestionId)){
+                        KnownQuestionIds.push(currentQuestionId);
+                    }
+    
+                    localStorage.setItem('KnownQuestionIds', JSON.stringify(KnownQuestionIds));
+                    console.log(KnownQuestionIds);
+                    console.log("KnownQuestionIds");
                 };
 
             };      

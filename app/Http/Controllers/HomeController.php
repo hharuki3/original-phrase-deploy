@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 
+use App\Http\Requests\CreateRequest;
+use App\Http\Requests\MailRequest;
+use App\Http\Requests\NewGroupRequest;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Group;
@@ -49,20 +52,20 @@ class HomeController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
         $posts = $request->all();
         // dd($posts);
 
         //バリデーション
-        $request->validate([
-            'japanese' => 'required',
-            'phrase' => 'required',
-            'memo' => 'required',
-            'new_category' => [Rule::unique('categories', 'name')
-                ->whereNull('deleted_at')]
-                // ->where('user_id', '=', \Auth::id())]
-        ]);
+        // $request->validate([
+        //     'japanese' => 'required',
+        //     'phrase' => 'required',
+        //     'memo' => 'required',
+        //     'new_category' => [Rule::unique('categories', 'name')
+        //         ->whereNull('deleted_at')]
+        //         // ->where('user_id', '=', \Auth::id())]
+        // ]);
 
         DB::transaction(function() use($posts){
             $phrase_id = Phrase::insertGetId(['japanese' => $posts['japanese'], 'phrase' => $posts['phrase'], 
@@ -103,17 +106,17 @@ class HomeController extends Controller
         return view('edit', compact('edit_phrase', 'include_categories'));
     }
 
-    public function update(Request $request)
+    public function update(CreateRequest $request)
     {
         $posts = $request->all();
-        $request->validate([
-            'japanese' => 'required',
-            'phrase' => 'required',
-            'memo' => 'required',
-            'new_category' => [Rule::unique('categories', 'name')
-                ->whereNull('deleted_at')]
-                // ->where('user_id', '=', \Auth::id())]
-        ]);
+        // $request->validate([
+        //     'japanese' => 'required',
+        //     'phrase' => 'required',
+        //     'memo' => 'required',
+        //     'new_category' => [Rule::unique('categories', 'name')
+        //         ->whereNull('deleted_at')]
+        //         // ->where('user_id', '=', \Auth::id())]
+        // ]);
 
         DB::transaction(function() use($posts){
             Phrase::where('id', '=', $posts['phrase_id'])
@@ -270,12 +273,12 @@ class HomeController extends Controller
         return view('invite', compact('group_id'));
     }
 
-    public function new_invite(Request $request)
+    public function new_invite(NewGroupRequest $request)
     {
         $posts = $request->all();
-        $request->validate([
-            'new_group' => 'required'
-        ]);
+        // $request->validate([
+        //     'new_group' => 'required'
+        // ]);
         $new_group_id = Group::insertGetId(['name' => $posts['new_group']]);
         UserGroup::insert(['user_id' => \Auth::id(), 'group_id' => $new_group_id]);
 
@@ -288,12 +291,12 @@ class HomeController extends Controller
 
     }
 
-    public function invitation_confirm(Request $request)
+    public function invitation_confirm(MailRequest $request)
     {
         $posts = $request->all();
-        $request->validate([
-            'email' => 'required|email:filter,dns'
-        ]);
+        // $request->validate([
+        //     'email' => 'required|email:filter,dns'
+        // ]);
         // $recipientName メール受信者の名前 / $recipientEmail メール受信者のメールアドレス / fromName メール送信者の名前
         $recipientName = User::where('email', $posts['email'])->first()->name;
         $recipientEmail = User::where('email', $posts['email'])->first()->email;
@@ -319,10 +322,10 @@ class HomeController extends Controller
         $token = bin2hex(random_bytes(32)); // ランダムなトークンの生成
 
         //localhost用URL
-        // $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
+        $url = 'http://localhost:8888/login?token=' . $token; // 招待URLの作成
 
         //heroku用URL
-        $url = 'https://original-phrase-heroku4.herokuapp.com/login?token=' . $token; // 招待URLの作成
+        // $url = 'https://original-phrase-heroku4.herokuapp.com/login?token=' . $token; // 招待URLの作成
 
         // inviteテーブルに追加
         Invite::insert(['group_id' => $group_id, 'token' => $token]);

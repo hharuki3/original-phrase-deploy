@@ -26,7 +26,7 @@
                                 <input class="form-control" type="text" name="new_category" placeholder="新しいカテゴリーを追加">
                             </div>
                             @error('new_category')
-                                <div style="color:red;">{{'※このカテゴリーはすでに存在しています。'}}</div>
+                                <div style="color:red;">{{$message}}</div>
                             @enderror
                             <input type="hidden" name="categories">
                             @foreach($categories as $category)
@@ -61,6 +61,9 @@
                             <div class="row justify-content-center">
                                 <input class="form-control text-center" style="width:50%;font-size:20px" type="text" name="japanese" value="{{$edit_phrase[0]['japanese']}}" id="japanese">
                             </div>
+                            @error('japanese')
+                                <div style="color:red;">{{$message}}</div>
+                            @enderror
                         </div>
                         
 
@@ -71,6 +74,9 @@
                             <div class="row justify-content-center">
                                 <input class="form-control text-center" style="width:50%;font-size:20px" type="text" name="phrase" value="{{$edit_phrase[0]['phrase']}}" id="english">
                             </div>
+                            @error('phrase')
+                                <div style="color:red;">{{$message}}</div>
+                            @enderror
                         </div>
 
 
@@ -81,6 +87,9 @@
                             <div class="row justify-content-center">
                                 <textarea class="form-control text-center" style="font-size:20px" name="memo" rows="3" id="memo">{{$edit_phrase[0]['memo']}}</textarea>
                             </div>
+                            @error('memo')
+                                <div style="color:red;">{{$message}}</div>
+                            @enderror
                         </div>
 
                         

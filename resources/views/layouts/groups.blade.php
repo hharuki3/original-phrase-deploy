@@ -120,10 +120,14 @@
                                     <div class="card shadow-sm mb-3">
                                         <div class="card-body">
                                             <input class="btn btn-lignt" type="submit" value="＋グループを作成">
+                                            @error('new_group')
+                                                    <div style="color:red;">{{$message}}</div>
+                                            @enderror
                                             <div class="text-center form-group">
-                                                <input class="form-control" type="text" name="new_group" placeholder="グループ名を記入して下さい" required>
+                                                <input class="form-control" type="text" name="new_group" placeholder="グループ名を記入して下さい" >
                                             </div>
                                         </div>
+                                        
                                     </div>
                                 </form>
                                 <p class="pt-3 text-center">参加しているグループ</p>
@@ -133,9 +137,9 @@
                                 @else
                                     @foreach($groups as $group)
                                     <div class="text-center">
-                                        <!-- <a href="/group?group=" class="btn btn-light my-2"> -->
+                                        <a href="/group?group={{$group['id']}}" class="btn btn-light my-2">
                                             <!-- heroku用URL -->
-                                        <a href="https://original-phrase-heroku4.herokuapp.com/group?group={{$group['id']}}" class="btn btn-light my-2">
+                                        <!-- <a href="https://original-phrase-heroku4.herokuapp.com/group?group=" class="btn btn-light my-2"> -->
                                             <span>{{$group['name']}}</span>
                                         </a>
                                     </div>
