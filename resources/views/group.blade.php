@@ -146,12 +146,12 @@
 
     var userParam = urlParams.get('user');
 
-    // If userParam is null, set it to an empty string
+    //クエリパラメータがなければnullを設定
     if (userParam === null) {
         userParam = '';
     }
 
-    // Create a unique key for this checkbox based on its id.
+    //foreachの各チェックに一意のidを割り当てる + クエリパラメータを付与
     var checkboxId = 'checkbox' + {{ $key }};
     var storageKey = 'checkboxChecked_' + checkboxId + '_user_' + userParam;
     
@@ -159,6 +159,7 @@
         var checkbox = document.getElementById(checkboxId);
 
         checkbox.addEventListener('change', function() {
+            //第一引数は保存するデータの名称。第二引数は保存するデータの値
             localStorage.setItem(storageKey, this.checked);
         });
 
