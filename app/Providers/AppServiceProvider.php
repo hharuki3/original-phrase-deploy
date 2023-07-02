@@ -62,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
                     ->orderBy('updated_at', 'DESC')
                     ->get();
             }
+
             $randoms = range(0,count($phrases)-1);
             shuffle($randoms);
             
@@ -137,7 +138,6 @@ class AppServiceProvider extends ServiceProvider
                 
             $query_user = \Request::query('user');
 
-
             $group_phrase_exists = Phrase::where('user_id', '=', $query_user)
             ->whereNull('deleted_at')
             ->exists();
@@ -151,16 +151,16 @@ class AppServiceProvider extends ServiceProvider
                         ->whereNull('deleted_at')
                         ->orderBy('updated_at', 'ASC')
                         ->get();
+                    }else{
+                        // 「投稿しているフレーズなし」の処理
+                        $group_user_phrases = [];
+                    }
+                    
                 }else{
-                    // 「投稿しているフレーズなし」の処理
+                    // 所属グループページにいるが、参加ユーザーを選択していない場合の処理
                     $group_user_phrases = [];
                 }
                 
-            }else{
-                // 所属グループページにいるが、参加ユーザーを選択していない場合の処理
-                $group_user_phrases = [];
-            }
-
             $query_invite = \Request::query('token');
 
             

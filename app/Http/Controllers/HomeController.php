@@ -110,14 +110,6 @@ class HomeController extends Controller
     public function update(CreateRequest $request)
     {
         $posts = $request->all();
-        // $request->validate([
-        //     'japanese' => 'required',
-        //     'phrase' => 'required',
-        //     'memo' => 'required',
-        //     'new_category' => [Rule::unique('categories', 'name')
-        //         ->whereNull('deleted_at')]
-        //         // ->where('user_id', '=', \Auth::id())]
-        // ]);
 
         DB::transaction(function() use($posts){
             Phrase::where('id', '=', $posts['phrase_id'])
@@ -150,12 +142,11 @@ class HomeController extends Controller
         $posts = $request->all();
         DB::transaction(function() use($posts){
             Phrase::where('id', '=', $posts['phrase_id'])
-                ->update(['japanese' => $posts['japanese'], 'phrase' => $posts['phrase'], 
-                'memo' => $posts['memo'], 'checklist' => $posts['checklist']]);
-            PhraseCategory::where('phrase_id', '=', $posts['phrase_id'])->delete();
+                ->update(['checklist' => $posts['checklist']]);
 
         });
         $redirectUrl = session()->get('redirect_url',route('quiz_all'));
+        dd($redirectUrl);
         return redirect($redirectUrl);
     }
 
@@ -255,37 +246,60 @@ class HomeController extends Controller
         return view('group');
     }
 
+
     public function add_favorite(Request $request)
     {
         $posts = $request->all();
-        dd($posts);
 
-        Favorite::insert(['japanese' => $posts['japanese'], 'phrase' => $posts['phrase'], 
-        'memo' => $posts['memo'], 'user_id' => \Auth::id()]);
+        $favorite_exists = Favorite::select('favorites.*')
+            ->where('japanese', '=', $posts['japanese'])
+            ->where('phrase', '=', $posts['phrase'])
+            ->where('memo', '=', $posts['memo'])
+            ->whereNull('deleted_at')
+            ->where('user_id', '=', \Auth::id())
+            ->exists();
+        
+        if(!$favorite_exists){
+            Favorite::insert(['japanese' => $posts['japanese'], 'phrase' => $posts['phrase'], 
+            'memo' => $posts['memo'], 'checklist' => $posts['checklist'], 'user_id' => \Auth::id()]);
+            // $isFavorited = Favorite::where('user_id', \Auth::id())->where('id', $posts['id'])->exists();
+        }
+        
+        $userId = $request->input('user');
+        return redirect()->route('group', ['user' => $userId]);
 
-        $redirectUrl = session()->get('redirect_url',route('group'));
-        return redirect($redirectUrl);
     }
+
 
     public function destroy_favorite(Request $request)
     {
         $posts = $request->all();
-        dd($posts);
-        Favorite::where('id', $posts['phrase_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
+        Favorite::where('user_id', '=', \Auth::id())
+            ->where('japanese', '=', $posts['japanese'])
+            ->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
 
-        $redirectUrl = session()->get('redirect_url',route('group'));
-        return redirect($redirectUrl);
+        // $isFavorited = Favorite::where('user_id', \Auth::id())->where('id', $posts['id'])->exists();
+
+
+        $userId = $request->input('user');
+        return redirect()->route('group', ['user' => $userId]);
     }
+
 
     public function group_favorite()
     {
-        $favorite_phrases = Favorite::select('favorites.*')
-        ->whereNull('deleted_at')
-        ->where('user_id', '=', \Auth::id())
-        ->orderBy('updated_at', 'DESC')
-        ->get();
-
-        dd($favorite_phrases);
+        
+        $query = Favorite::select('favorites.*')
+            ->whereNull('deleted_at')
+            ->where('user_id', '=', \Auth::id());
+        
+        if($query->exists()){
+            $favorite_phrases = $query
+                ->orderBy('updated_at', 'DESC')
+                ->get();
+        }else{
+            $favorite_phrases = [];
+        }
 
         return view('group_favorite',compact('favorite_phrases'));
     }

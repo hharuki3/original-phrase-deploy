@@ -25,12 +25,14 @@
                             <p class="mt-4" style="font-size:20px">{{$group_user_phrase['japanese']}}</p>
                         </div>
 
-                        <form action="{{route('add_favorite')}}" method="post">
+                        <form action="{{route('add_favorite')}}" method="post" id="favorite{{$key}}">
                             @csrf
-                            <input type="hidden" name="phrase_id" value="{{$group_user_phrase['id']}}">
+                            <input type="hidden" name="id" value="{{$group_user_phrase['id']}}">
                             <input type="hidden" name="japanese" value="{{$group_user_phrase['japanese']}}">
                             <input type="hidden" name="phrase" value="{{$group_user_phrase['phrase']}}">
                             <input type="hidden" name="memo" value="{{$group_user_phrase['memo']}}">
+                            <input type="hidden" name="checklist" id="checklist{{$key}}">
+                            <input type="hidden" name="user" value="{{ $query_user }}">
                             <input type="checkbox" name="checkbox" class="mt-4" id="checkbox{{$key}}" value="checked" onchange="submitForm(this, 'favorite{{$key}}', `{{route('add_favorite')}}`, `{{route('destroy_favorite')}}` )">
                         </form>
                     </div>
@@ -135,6 +137,41 @@
 @section('javascript')
 
 <script>
+
+
+    var urlParams = new URLSearchParams(window.location.search);
+
+
+    @foreach($group_user_phrases as $key => $group_user_phrase)
+
+    var userParam = urlParams.get('user');
+
+    // If userParam is null, set it to an empty string
+    if (userParam === null) {
+        userParam = '';
+    }
+
+    // Create a unique key for this checkbox based on its id.
+    var checkboxId = 'checkbox' + {{ $key }};
+    var storageKey = 'checkboxChecked_' + checkboxId + '_user_' + userParam;
+    
+    function CheckboxListener(checkboxId, storageKey){
+        var checkbox = document.getElementById(checkboxId);
+
+        checkbox.addEventListener('change', function() {
+            localStorage.setItem(storageKey, this.checked);
+        });
+
+        checkbox.checked = localStorage.getItem(storageKey) === 'true';
+    }
+
+    CheckboxListener(checkboxId, storageKey);
+    console.log(localStorage.getItem(storageKey));
+
+    @endforeach
+
+
+
     function submitForm(element, formId, addUrl, removeUrl) {
         var form = document.getElementById(formId);
         if(element.checked) {
@@ -147,6 +184,7 @@
         }
         form.submit();
     }
+    
 
 </script>
 

@@ -13,8 +13,7 @@
             </div>
         @endif
 
-        @if(!empty($group_user_phrases))
-
+        @if($favorite_phrases)
             <div class="card-body">
                 <div class="form-group form-control-lg my-3">
                     @foreach($favorite_phrases as $favorite_phrase)
@@ -30,6 +29,7 @@
                         <div class="row justify-content-center">
                             <p class="text-center" style="font-size:20px" >{{$favorite_phrase['memo']}}</p>
                         </div>
+
                         <div class="border-top">
                     @endforeach
                 </div>
@@ -37,7 +37,7 @@
 
         @else
             <div class="card-body">
-                <div class="form-group form-control-lg my-3">
+                <div class="form-group form-control-lg my-3 text-center">
                     お気に入り登録されたフレーズはまだありません。
                 </div>
             </div>  
