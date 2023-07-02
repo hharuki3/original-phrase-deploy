@@ -22,31 +22,25 @@
                 @foreach($group_user_phrases as $key => $group_user_phrase)
                     <div class="d-flex justify-content-center">
                         <div class="text-center flex-grow-1">
-                            <p class="mt-4" style="font-size:20px" id="japanese-{{$key}}">{{$group_user_phrase['japanese']}}</p>
+                            <p class="mt-4" style="font-size:20px">{{$group_user_phrase['japanese']}}</p>
                         </div>
-                        <!-- <p class="mt-4" style="font-size:20px">♡</p> -->
 
-                        <!-- <form action="{{route('group_favorite')}}" method="post">
+                        <form action="{{route('add_favorite')}}" method="post">
                             @csrf
-                            <input type="hidden" name="phrase_id" value="">
-                            <div id="favorite" value>
-
-                            </div>
-                            <div>
-                                <input type="checkbox" class="mt-4" name="favorite" value="{{$key}}">
-                            </div>
-                        </form> -->
-
-
-                        
+                            <input type="hidden" name="phrase_id" value="{{$group_user_phrase['id']}}">
+                            <input type="hidden" name="japanese" value="{{$group_user_phrase['japanese']}}">
+                            <input type="hidden" name="phrase" value="{{$group_user_phrase['phrase']}}">
+                            <input type="hidden" name="memo" value="{{$group_user_phrase['memo']}}">
+                            <input type="checkbox" name="checkbox" class="mt-4" id="checkbox{{$key}}" value="checked" onchange="submitForm(this, 'favorite{{$key}}', `{{route('add_favorite')}}`, `{{route('destroy_favorite')}}` )">
+                        </form>
                     </div>
 
 
                     <div class="row justify-content-center">
-                        <p class="text-center" style="font-size:20px" id="phrase-{{$key}}">{{$group_user_phrase['phrase']}}</p>
+                        <p class="text-center" style="font-size:20px">{{$group_user_phrase['phrase']}}</p>
                     </div>
                     <div class="row justify-content-center">
-                        <p class="text-center" style="font-size:20px" id="memo-{{$key}}">{{$group_user_phrase['memo']}}</p>
+                        <p class="text-center" style="font-size:20px" >{{$group_user_phrase['memo']}}</p>
                     </div>
                     <div class="border-top">
                 @endforeach
@@ -139,60 +133,20 @@
 @endsection
 
 @section('javascript')
+
 <script>
-var groupDisplay = [];
-
-window.onload = function() {
-    var checkboxes = document.querySelectorAll('input[type=checkbox][name="favorite"]');
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            var groupID = this.value;  // this should be a unique ID for each group
-            var groupInfo = {
-                'japanese': document.getElementById('japanese-' + groupID).innerText,
-                'phrase': document.getElementById('phrase-' + groupID).innerText,
-                'memo': document.getElementById('memo-' + groupID).innerText,
-            };
+    function submitForm(element, formId, addUrl, removeUrl) {
+        var form = document.getElementById(formId);
+        if(element.checked) {
+            // チェックが入ったとき
+            form.action = addUrl;
             
-            if(this.checked) {
-                groupDisplay.push(groupInfo);
-            } else {
-                var index = groupDisplay.findIndex(function(group) {
-                    return group.japanese === groupInfo.japanese &&
-                           group.phrase === groupInfo.phrase &&
-                           group.memo === groupInfo.memo;
-                });
-                
-                if (index !== -1) {
-                    groupDisplay.splice(index, 1);
-                }
-            }
-
-            // var displayElement = document.getElementById('display');
-            //     displayElement.innerHTML = groupDisplay.map(function(group) {
-            //         return `<p>${group.japanese}</p>
-            //                 <p>${group.phrase}</p>
-            //                 <p>${group.memo}</p>`;
-            //     }).join('');
-        });
-    });
-}
-
-
-var favoriteDisplay = document.getElementById('favorite');
-
-
-favoriteDisplay.addEventListener('click', () => {
-    // お気に入りボタンをクリックした場合、チェックしたフレーズ等のみ表示
-    console.log('クリックされました。');
-    var displayElement = document.getElementById('display');
-        displayElement.innerHTML = groupDisplay.map(function(group) {
-            return `<p>${group.japanese}</p>
-                    <p>${group.phrase}</p>
-                    <p>${group.memo}</p>`;
-        }).join('');
-    
-});
-
+        } else {
+            // チェックが外れたとき
+            form.action = removeUrl;
+        }
+        form.submit();
+    }
 
 </script>
 

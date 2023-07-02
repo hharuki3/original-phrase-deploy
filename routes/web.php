@@ -42,6 +42,9 @@ Route::post('/result', [HomeController::class, 'result'])->name('result');
 
 Route::get('/category', [HomeController::class, 'category'])->name('category');
 Route::get('/group', [HomeController::class, 'group'])->name('group');
+Route::post('/add_favorite', [HomeController::class, 'add_favorite'])->name('add_favorite');
+Route::post('/destroy_favorite', [HomeController::class, 'destroy_favorite'])->name('destroy_favorite');
+Route::get('/group_favorite', [HomeController::class, 'group_favorite'])->name('group_favorite');
 
 // グループユーザーの投稿を閲覧
 Route::get('/friends_phrases/{id}', [HomeController::class, 'friends_phrases'])->name('friends_phrases');

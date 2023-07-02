@@ -14,13 +14,17 @@ class CreateFavoritesTable extends Migration
     public function up()
     {
         Schema::create('favorites', function (Blueprint $table) {
+
             $table->unsignedBigInteger('id', true);
             $table->text('japanese');
             $table->text('phrase');
-            $table->longTaext('memo');
+            $table->longText('memo');
+            $table->text('checklist')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->softDeletes();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->foreign('user_id')->references('id')->on('users');
             
         });
     }

@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Group;
 use App\Models\UserGroup;
+use App\Models\Favorite;
 use App\Models\Phrase;
 use App\Models\PhraseCategory;
 use App\Models\Invite;
@@ -253,6 +254,44 @@ class HomeController extends Controller
     {
         return view('group');
     }
+
+    public function add_favorite(Request $request)
+    {
+        $posts = $request->all();
+        dd($posts);
+
+        Favorite::insert(['japanese' => $posts['japanese'], 'phrase' => $posts['phrase'], 
+        'memo' => $posts['memo'], 'user_id' => \Auth::id()]);
+
+        $redirectUrl = session()->get('redirect_url',route('group'));
+        return redirect($redirectUrl);
+    }
+
+    public function destroy_favorite(Request $request)
+    {
+        $posts = $request->all();
+        dd($posts);
+        Favorite::where('id', $posts['phrase_id'])->update(['deleted_at' => date("Y-m-d H:i:s", time())]);
+
+        $redirectUrl = session()->get('redirect_url',route('group'));
+        return redirect($redirectUrl);
+    }
+
+    public function group_favorite()
+    {
+        $favorite_phrases = Favorite::select('favorites.*')
+        ->whereNull('deleted_at')
+        ->where('user_id', '=', \Auth::id())
+        ->orderBy('updated_at', 'DESC')
+        ->get();
+
+        dd($favorite_phrases);
+
+        return view('group_favorite',compact('favorite_phrases'));
+    }
+
+
+
     public function category()
     {
         return view('category');

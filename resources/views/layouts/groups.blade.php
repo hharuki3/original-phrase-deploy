@@ -93,7 +93,7 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <a href="/" class="btn btn-light my-2">
+                                    <a href="{{route('category')}}" class="btn btn-light my-2">
                                     <img width="30" src="{{asset('img/category.png')}}" alt="">
                                     </a>
                                 </div>
@@ -153,7 +153,9 @@
                                     設定を編集
                                 </a> -->
                                 
-                                <button id="favorite" class="btn btn-light my-2 w-100 mt-4">お気に入り</button>
+                                <a href="{{route('group_favorite')}}" class="btn btn-light my-2 w-100 mt-4" id="favorite">お気に入り</a>
+
+
 
                                 
                             </div>
